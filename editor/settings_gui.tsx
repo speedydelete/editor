@@ -94,7 +94,8 @@ function CodeSetting({name, desc, config, settingsKey, settingsObj, width, json,
         if (json) {
             setInvalid('');
             try {
-                JSON.parse(value);
+                settingsObj[settingsKey] = JSON.parse(value);
+                saveSettings(settingsObj);
             } catch (error) {
                 if (error instanceof SyntaxError) {
                     const msg = error.message.replace('JSON.parse: ', '');
@@ -105,8 +106,6 @@ function CodeSetting({name, desc, config, settingsKey, settingsObj, width, json,
                 }
             }
         }
-        settingsObj[settingsKey] = value;
-        saveSettings(settingsObj);
     }
     return (
         <div className='editor-setting editor-setting-code' {...props}>
