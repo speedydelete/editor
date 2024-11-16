@@ -1,0 +1,355 @@
+{
+    "dark": {
+        "name": "Base Dark",
+        "dark": true,
+        "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+        "fontSize": "14px",
+        "caretColor": "#ffffff",
+        "background": "#000000",
+        "color": "#ffffff",
+        "border": "#ffffff",
+        "borderTop": "#ffffff",
+        "editor": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff"
+        },
+        "lineNumber": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#ffffff",
+                "background": "#000000",
+                "color": "#ffffff",
+                "border": "#ffffff",
+                "borderTop": "#ffffff"
+            }
+        },
+        "selection": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff"
+        },
+        "selectionMatch": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff"
+        },
+        "foldText": "...",
+        "fold": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff"
+        },
+        "topBar": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff"
+        },
+        "tab": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#ffffff",
+                "background": "#000000",
+                "color": "#ffffff",
+                "border": "#ffffff",
+                "borderTop": "#ffffff"
+            }
+        },
+        "tokenColors": {
+
+        },
+        "bracketColors": [
+            "#ffffff"
+        ],
+        "settings": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff"
+        },
+        "button": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#ffffff",
+                "background": "#000000",
+                "color": "#ffffff",
+                "border": "#ffffff",
+                "borderTop": "#ffffff"
+            }
+        },
+        "numberInput": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#ffffff",
+                "background": "#000000",
+                "color": "#ffffff",
+                "border": "#ffffff",
+                "borderTop": "#ffffff"
+            }
+        },
+        "textInput": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#ffffff",
+                "background": "#000000",
+                "color": "#ffffff",
+                "border": "#ffffff",
+                "borderTop": "#ffffff"
+            }
+        },
+        "checkboxInput": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#ffffff",
+            "background": "#000000",
+            "color": "#ffffff",
+            "border": "#ffffff",
+            "borderTop": "#ffffff",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#ffffff",
+                "background": "#000000",
+                "color": "#ffffff",
+                "border": "#ffffff",
+                "borderTop": "#ffffff"
+            }
+        },
+        "css": ""
+    },
+    "light": {
+        "name": "Base Light",
+        "dark": false,
+        "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+        "fontSize": "14px",
+        "caretColor": "#000000",
+        "background": "#ffffff",
+        "color": "#000000",
+        "border": "#000000",
+        "borderTop": "#000000",
+        "editor": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000"
+        },
+        "lineNumber": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#000000",
+                "background": "#ffffff",
+                "color": "#000000",
+                "border": "#000000",
+                "borderTop": "#000000"
+            }
+        },
+        "selection": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000"
+        },
+        "selectionMatch": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000"
+        },
+        "foldText": "...",
+        "fold": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000"
+        },
+        "topBar": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000"
+        },
+        "tab": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#000000",
+                "background": "#ffffff",
+                "color": "#000000",
+                "border": "#000000",
+                "borderTop": "#000000"
+            }
+        },
+        "tokenColors": {
+
+        },
+        "bracketColors": [
+            "#000000"
+        ],
+        "settings": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000"
+        },
+        "button": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000"
+        },
+        "numberInput": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#000000",
+                "background": "#ffffff",
+                "color": "#000000",
+                "border": "#000000",
+                "borderTop": "#000000"
+            }
+        },
+        "textInput": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#000000",
+                "background": "#ffffff",
+                "color": "#000000",
+                "border": "#000000",
+                "borderTop": "#000000"
+            }
+        },
+        "checkboxInput": {
+            "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+            "fontSize": "14px",
+            "caretColor": "#000000",
+            "background": "#ffffff",
+            "color": "#000000",
+            "border": "#000000",
+            "borderTop": "#000000",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#000000",
+                "background": "#ffffff",
+                "color": "#000000",
+                "border": "#000000",
+                "borderTop": "#000000"
+            }
+        },
+        "css": ""
+    }
+}
