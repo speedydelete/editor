@@ -1,0 +1,139 @@
+{
+    "baseDark": {},
+    "baseLight": {},
+    "default": "defaultDark",
+    "defaultDark": "vscode",
+    "defaultLight": "baseLight",
+    "vscode": {
+        "name": "Visual Studio Code",
+        "dark": true,
+        "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+        "fontSize": "14px",
+        "caretColor": "#c6c6c6",
+        "background": "#1f1f1f",
+        "color": "#cccccc",
+        "border": "none",
+        "editor": {
+            "border": "#2b2b2b"
+        },
+        "lineNumber": {
+            "color": "#6e7681",
+            "active": {
+                "color": "#cccccc"
+            }
+        },
+        "selection": {
+            "background": "#add6ff26"
+        },
+        "selectionMatch": {
+            "background": "#3a3d41"
+        },
+        "foldText": "...",
+        "fold": {
+            "color": "#808080"
+        },
+        "topBar": {
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "background": "#181818"
+        },
+        "tab": {
+            "fontFamily": "Arial, Helvetica, sans-serif",
+            "background": "#181818",
+            "color": "#9d9d9d",
+            "border": "#2b2b2b",
+            "active": {
+                "background": "#1f1f1f",
+                "color": "#ffffff",
+                "border": "#1f1f1f",
+                "borderTop": "#0078d4"
+            }
+        },
+        "tokenColors": {
+            "heading": {
+                "fontWeight": "bold"
+            },
+            "strong": {
+                "fontWeight": "bold"
+            },
+            "emphasis": {
+                "fontWeight": "italic"
+            },
+            "strikethrough": {
+                "textDecoration": "line-through"
+            },
+            "link": {
+                "color": "#6a9955",
+                "textDecoration": "underline"
+            },
+            "comment": "#6a9955",
+            "invalid": "#f44747",
+            "variableName": "#9cdcfe",
+            "typeName": "#569cd6",
+            "propertyName": "#9cdcfe",
+            "className": "#4ec9b0",
+            "constant": "#4fc1ff",
+            "function": "#dcdcaa",
+            "string": "#ce9178",
+            "number": "#b5cea8",
+            "bool": "#569cd6",
+            "regexp": "#d16969",
+            "escape": "#d7ba7d",
+            "color": "#ce9178",
+            "keyword": "#569cd6",
+            "controlKeyword": "#c586c0",
+            "moduleKeyword": "#c586c0",
+            "self": "#569cd6",
+            "null": "#569cd6",
+            "atom": "#569cd6",
+            "unit": "#569cd6",
+            "operator": "#d4d4d4",
+            "angleBracket": "#808080",
+            "squareBracket": "#d7ba7d",
+            "paren": "#569cd6",
+            "brace": "#b267e6",
+            "documentMeta": "#6a9955",
+            "inserted": "#b5cea8",
+            "deleted": "#ce9178",
+            "changed": "#569cd6"
+        },
+        "bracketColors": [
+            "#d7ba7d",
+            "#b267e6",
+            "#569cd6"
+        ],
+        "settings": {
+            "fontFamily": "Arial, Helvetica, sans-serif"
+        },
+        "button": {
+            "background": "#0078d4",
+            "color": "#ffffff",
+            "border": "#ffffff12",
+            "fontFamily": "inherit",
+            "active": {
+                "background": "#026ec1"
+            }
+        },
+        "numberInput": {
+            "background": "#313131",
+            "color": "#cccccc",
+            "border": "#3c3c3c",
+            "fontFamily": "inherit"
+        },
+        "textInput": {
+            "background": "#313131",
+            "color": "#cccccc",
+            "border": "#3c3c3c",
+            "fontFamily": "inherit"
+        },
+        "checkboxInput": {
+            "background": "#313131",
+            "border": "#3c3c3c",
+            "color": "#cccccc",
+            "active": {
+                "background": "#202020",
+                "border": "#cccccc"
+            }
+        },
+        "css": ".editor-wrapper-wrapper :is(a, a:visited) { text-decoration: none; color: #0078d4; }"
+    }
+}
