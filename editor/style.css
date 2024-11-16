@@ -1,0 +1,102 @@
+
+.editor-wrapper-wrapper {
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.editor-wrapper-wrapper * {
+    box-sizing: border-box;
+}
+
+.editor-wrapper-wrapper button {
+    padding: 5px;
+}
+
+.editor-wrapper {
+    height: 100%;
+}
+
+.editor-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-top-bar {
+    width: 100%;
+    padding: 10px;
+    border-bottom: none!important;
+}
+
+.editor-top-bar:first-child {
+    display: inline;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+}
+
+.editor-tab-view {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-tab-bar {
+    height: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-top: none!important;
+}
+
+.editor-tab {
+    height: 100%;
+    padding: 5px 10px;
+    text-align: center;
+    vertical-align: middle;
+    border-bottom: none!important;
+    user-select: none;
+}
+
+.editor-tab-space {
+    border: none!important;
+}
+
+.editor-tab-panel {
+    flex-grow: 1;
+    overflow-y: auto;
+    height: 0;
+}
+
+.editor-editor, .editor-settings-wrapper {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.editor-settings-wrapper {
+    padding: 10px;
+}
+
+.editor-settings-title, .editor-setting-name {
+    color: #ffffff;
+    font-weight: "bold";
+}
+
+.editor-settings-title {
+    font-size: 24px;
+}
+
+.editor-setting input[type=checkbox] {
+    appearance: none;
+    height: 14px;
+    width: 14px;
+    user-select: none;
+}
+
+.editor-setting input[type=checkbox]:checked {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 14 14'><line x1='0' y1='0' x2='14' y2='14' stroke='white' /><line x1='0' y1='14' x2='14' y2='0' stroke='white' /></svg>");
+}
