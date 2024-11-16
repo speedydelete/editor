@@ -294,7 +294,16 @@
             "background": "#ffffff",
             "color": "#000000",
             "border": "#000000",
-            "borderTop": "#000000"
+            "borderTop": "#000000",
+            "active": {
+                "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
+                "fontSize": "14px",
+                "caretColor": "#000000",
+                "background": "#ffffff",
+                "color": "#000000",
+                "border": "#000000",
+                "borderTop": "#000000"
+            }
         },
         "numberInput": {
             "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
