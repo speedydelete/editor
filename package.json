@@ -1,19 +1,23 @@
 {
   "name": "editor",
-  "version": "1.1.0",
-  "description": "",
-  "keywords": [],
-  "main": "src/index.jsx",
-  "dependencies": {
-  },
-  "devDependencies": {
-  },
+  "version": "1.0.0",
+  "description": "A code editor made in React. Used in https://wildwest.gg/.",
+  "main": "main/index.jsx",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/speedydelete/editor.git"
+  },
+  "author": "speedydelete",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/speedydelete/editor/issues"
+  },
+  "homepage": "https://github.com/speedydelete/editor#readme",
+  "devDependencies": {
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
+  }
 }

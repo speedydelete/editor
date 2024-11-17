@@ -58,4 +58,5 @@ root.render(
             lang: html(),
             settings: CodeEditor.loadSettings()
 		}} />
-    </StrictMode>);
+    </StrictMode>
+);
