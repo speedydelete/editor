@@ -1,7 +1,7 @@
 
 import React, {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
-import CodeEditor from './editor'
+import CodeEditor from '../editor'
 import {html} from '@codemirror/lang-html'
 
 const testText = `<!DOCTYPE html>
