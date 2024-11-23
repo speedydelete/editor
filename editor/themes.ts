@@ -23,8 +23,8 @@ interface SubThemeActive extends SubTheme {
 }
 
 interface Theme extends SubTheme {
-    name: string,
-    dark: boolean,
+    name?: string,
+    dark?: boolean,
     editor?: SubTheme,
     lineNumber?: SubThemeActive,
     selection?: SubTheme,
@@ -117,6 +117,7 @@ function completeSubThemeActive(theme: SubThemeActive | undefined, parentTheme: 
 }
 
 function completeTheme(theme: Theme): CompleteTheme {
+    theme = {name: '<no name provided>', dark: true, ...theme}
     const baseTheme: CompleteTheme = theme.dark ? baseThemes.dark : baseThemes.light;
     return {
         name: theme.name,
