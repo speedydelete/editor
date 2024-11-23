@@ -1,5 +1,5 @@
 # Editor
-Code editor made in React. Used in https://wildwest.gg/.
+Code editor made in React. Used on https://wildwest.gg/.
 ## Running
 ```bash
 npm install
