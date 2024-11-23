@@ -164,7 +164,6 @@ function createThemeExtension(theme: CompleteTheme, {doSyntaxHighlighting}: {doS
             tokenSettings.push({ tag: tag, ...value });
         }
     }
-    console.log(tokenSettings);
     let out: Extension[] = [
         EditorView.theme({
             '.cm-activeLine': {backgroundColor: 'unset!important'},
