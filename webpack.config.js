@@ -35,6 +35,7 @@ module.exports = {
         },
         compress: true,
         port: 9000,
+        liveReload: true,
         watchFiles: ['src/*', 'editor/*', 'dist/*']
     },
 };

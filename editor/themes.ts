@@ -151,10 +151,12 @@ function createThemeExtension(theme: CompleteTheme, {doSyntaxHighlighting}: {doS
             tag = [tags.constant(tags.name), tags.constant(tags.variableName), tags.constant(tags.propertyName)];
         } else if (key == 'function') {
             tag = [tags.function(tags.name), tags.function(tags.variableName), tags.function(tags.propertyName)];
-        } else if (key in tags) {
-            tag = tags[key];
         } else {
-            console.warn('Invalid tag in tokenColors', tag);
+            tag = tags[key];
+        }
+        if (tag === undefined) {
+            console.warn('Invalid tag in tokenColors', tag); 
+            continue;
         }
         if (typeof value == 'string') {
             tokenSettings.push({ tag: tag, color: value });
@@ -162,6 +164,7 @@ function createThemeExtension(theme: CompleteTheme, {doSyntaxHighlighting}: {doS
             tokenSettings.push({ tag: tag, ...value });
         }
     }
+    console.log(tokenSettings);
     let out: Extension[] = [
         EditorView.theme({
             '.cm-activeLine': {backgroundColor: 'unset!important'},
