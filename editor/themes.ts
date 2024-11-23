@@ -151,8 +151,10 @@ function createThemeExtension(theme: CompleteTheme, {doSyntaxHighlighting}: {doS
             tag = [tags.constant(tags.name), tags.constant(tags.variableName), tags.constant(tags.propertyName)];
         } else if (key == 'function') {
             tag = [tags.function(tags.name), tags.function(tags.variableName), tags.function(tags.propertyName)];
-        } else {
+        } else if (key in tags) {
             tag = tags[key];
+        } else {
+            console.warn('Invalid tag in tokenColors', tag);
         }
         if (typeof value == 'string') {
             tokenSettings.push({ tag: tag, color: value });
