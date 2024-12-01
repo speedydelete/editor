@@ -86,8 +86,8 @@ function CheckboxSetting({name, desc, settingsKey, settingsObj, ...props}:
     );
 }
 
-function CodeSetting({name, desc, config, settingsKey, settingsObj, width, json, ...props}:
-    {name: string, desc: string | Element, config: SimpleConfig, settingsKey: string, settingsObj: Settings, width: string, json?: boolean}) {
+function CodeSetting({name, desc, config, settingsKey, settingsObj, height, width, json, ...props}:
+    {name: string, desc: string | Element, config: SimpleConfig, settingsKey: string, settingsObj: Settings, height: string, width: string, json?: boolean}) {
     const initValue = json ? beautifyJSON(JSON.stringify(settingsObj[settingsKey])) : settingsObj[settingsKey];
     const [invalid, setInvalid] = useState('');
     function handleChange(value: string): void {
@@ -114,8 +114,8 @@ function CodeSetting({name, desc, config, settingsKey, settingsObj, width, json,
             {desc}
             <br />
             <br />
-            <div style={{width: width}}>
-                <SimpleCodeEditor config={{onChange: handleChange, value: initValue, ...config}} />
+            <div style={{height: height, width: width}}>
+                <SimpleCodeEditor config={{onChange: handleChange, value: initValue, ...config}} style={{overflowY: 'scroll', maxHeight: height, width: width}} />
             </div>
             <br />
             {(invalid !== '') && 
@@ -272,7 +272,8 @@ function SettingsMenu({settings, ...props}: {className?: string, settings: Setti
                 config={{lang: json(), settings: settings}}
                 settingsKey='theme'
                 settingsObj={settings}
-                width='100%'
+                height='500px'
+                width='500px'
                 json={true}
             />
             {/* <button onClick={() => applySettings(initialSettings, settings)}>Apply</button> */}
