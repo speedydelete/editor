@@ -2,11 +2,9 @@
 import {EditorView} from 'codemirror'
 import {Extension} from '@codemirror/state'
 import {syntaxHighlighting, HighlightStyle} from '@codemirror/language'
-import {tags, Tag} from '@lezer/highlight'
+import {tags as defaultTags, Tag} from '@lezer/highlight'
 
-function ifUndefined(value: any, defaultValue: any): any {
-    return value === undefined ? defaultValue : value;
-}
+const tags = {...defaultTags, function_: defaultTags.function, null_: defaultTags['null']};
 
 interface SubTheme {
     fontFamily?: string,
@@ -78,6 +76,12 @@ interface CompleteTheme extends CompleteSubTheme {
     css: string,
 }
 
+const tagDeconstructor = 'const {' + Object.keys(tags).filter(tag => tag != 'function' && tag != 'null').join(',') + '} = this;';
+
+function ifUndefined(value: any, defaultValue: any): any {
+    return value === undefined ? defaultValue : value;
+}
+
 const baseThemes: {dark: CompleteTheme, light: CompleteTheme} = require('./base_themes.json')
 const themes: {[key: string]: Theme | string} = require('./themes.json');
 
@@ -145,23 +149,16 @@ function completeTheme(theme: Theme): CompleteTheme {
 function createThemeExtension(theme: CompleteTheme, {doSyntaxHighlighting}: {doSyntaxHighlighting?: boolean}): Extension[] {
     let tokenSettings: {tag: Tag | Tag[], [key: string]: any}[] = [];
     for (const [key, value] of Object.entries(theme.tokenColors)) {
-        let tag: Tag | Tag[];
-        if (key == 'constant') {
-            // this doesn't work for some reason
-            tag = [tags.constant(tags.name), tags.constant(tags.variableName), tags.constant(tags.propertyName)];
-        } else if (key == 'function') {
-            tag = [tags.function(tags.name), tags.function(tags.variableName), tags.function(tags.propertyName)];
-        } else {
-            tag = tags[key];
-        }
-        if (tag === undefined) {
-            console.warn('Invalid tag in tokenColors', tag); 
-            continue;
-        }
-        if (typeof value == 'string') {
-            tokenSettings.push({ tag: tag, color: value });
-        } else {
-            tokenSettings.push({ tag: tag, ...value });
+        try {
+            let tag: Tag | Tag[] = Function(`'use strict';${tagDeconstructor};return ${key};`).bind(tags)();
+            if (tag == null) tag = tags.null;
+            if (typeof value == 'string') {
+                tokenSettings.push({ tag: tag, color: value });
+            } else {
+                tokenSettings.push({ tag: tag, ...value });
+            }
+        } catch (error) {
+            console.warn(`Invalid key in tokenColors:\nkey: \`${key}\`\ncode: \`'use strict';${tagDeconstructor}return ${key};\`\nerror: ${error}`);
         }
     }
     let out: Extension[] = [
