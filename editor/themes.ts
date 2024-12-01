@@ -14,6 +14,9 @@ interface SubTheme {
     color?: string,
     border?: string,
     borderTop?: string,
+    borderBottom?: string,
+    borderLeft?: string,
+    borderRight?: string,
 }
 
 interface SubThemeActive extends SubTheme {
@@ -47,8 +50,10 @@ interface CompleteSubTheme {
     caretColor: string,
     background: string,
     color: string,
-    border: string,
     borderTop: string,
+    borderBottom: string,
+    borderLeft: string,
+    borderRight: string,
 }
 
 interface CompleteSubThemeActive extends CompleteSubTheme {
@@ -92,23 +97,26 @@ function resolveTheme(theme: Theme | string): Theme {
     return theme;
 }
 
+function getBorder(border: string | undefined, base: string | undefined): string {
+    border = ifUndefined(border, base);
+    if (border !== undefined && border !== 'none' && !border.includes(' ')) {
+        border = '1px solid ' + border;
+    }
+    return border;
+}
+
 function completeSubTheme(theme: SubTheme | undefined, parentTheme: SubTheme, baseTheme: CompleteSubTheme): CompleteSubTheme {
-    let border = ifUndefined(theme?.border, ifUndefined(parentTheme.border, baseTheme.border));
-    if (border !== "none" && !border.includes(" ")) {
-        border = "1px solid " + border;
-    }
-    let borderTop = ifUndefined(theme?.borderTop, border);
-    if (borderTop !== "none" && !borderTop.includes(" ")) {
-        borderTop = "1px solid " + borderTop;
-    }
+    let border = ifUndefined(theme?.border, parentTheme.border);
     return {
         fontFamily: ifUndefined(theme?.fontFamily, ifUndefined(parentTheme.fontFamily, baseTheme.fontFamily)),
         fontSize: ifUndefined(theme?.fontSize, ifUndefined(parentTheme.fontSize, baseTheme.fontSize)),
         caretColor: ifUndefined(theme?.caretColor, ifUndefined(parentTheme.caretColor, baseTheme.caretColor)),
         background: ifUndefined(theme?.background, ifUndefined(parentTheme.background, baseTheme.background)),
         color: ifUndefined(theme?.color, ifUndefined(parentTheme.color, baseTheme.color)),
-        border: border,
-        borderTop: borderTop,
+        borderTop: getBorder(theme?.borderTop, border),
+        borderBottom: getBorder(theme?.borderBottom, border),
+        borderLeft: getBorder(theme?.borderLeft, border),
+        borderRight: getBorder(theme?.borderRight, border),
     }
 }
 
@@ -187,8 +195,10 @@ function generateSubThemeCSS(selector: string, theme: CompleteSubTheme): string 
             caret-color: ${theme.caretColor};
             background-color: ${theme.background};
             color: ${theme.color};
-            border: ${theme.border};
             border-top: ${theme.borderTop};
+            border-bottom: ${theme.borderBottom};
+            border-left: ${theme.borderLeft};
+            border-right: ${theme.borderRight};
         }
     `;
 }
