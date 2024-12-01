@@ -1,4 +1,3 @@
-
 const path = require('path');
 
 module.exports = {
@@ -6,7 +5,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         filename: 'main.js',
-        publicPath: './dist/',
+        publicPath: '/',
         path: path.resolve(__dirname, 'dist'),
     },
     resolve: {
@@ -17,11 +16,11 @@ module.exports = {
         rules: [
             {
                 exclude: /node_modules/,
-                test: /(\.js|\.ts|\.jsx|\.tsx|\.css)$/,
+                test: /(\.js|\.ts|\.jsx|\.tsx)$/,
                 loader: 'babel-loader',
                 options: {
                     presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
-                }
+                },
             },
             {
                 test: /\.css$/,
@@ -35,7 +34,11 @@ module.exports = {
         },
         compress: true,
         port: 9000,
+        hot: true, // Enable HMR
         liveReload: true,
-        watchFiles: ['src/*', 'editor/*', 'dist/*']
+        watchFiles: ['src/**/*', 'editor/**/*'], // Avoid watching the dist directory
+        devMiddleware: {
+            writeToDisk: true, // Ensure changes are written to disk
+        },
     },
 };
