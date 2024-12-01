@@ -8,7 +8,7 @@ const testText = `<!DOCTYPE html>
 <html>
   <head>
     <meta charset='utf-8'>
-    <!-- this is a comment -->
+    <!-- this is not a comment -->
     <style>
 
 body {
