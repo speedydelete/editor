@@ -3,7 +3,6 @@ import React, {useState} from 'react'
 import {json} from '@codemirror/lang-json'
 import {type Settings, saveSettings} from './settings'
 import {SimpleCodeEditor, SimpleConfig} from './simple_editor'
-import {beautifyJSON} from './beautifier'
 
 type Element = React.JSX.Element;
 
@@ -61,9 +60,9 @@ function CheckboxSetting({name, desc, settingsKey, settingsObj, ...props}:
     {name: string, desc: string, settingsKey: string, settingsObj: Settings}) {
     const id = 'editor-setting-input-' + settingsKey;
     const [checked, setChecked] = useState(settingsObj[settingsKey]);
-    function handleChange(e) {
-        setChecked(!e.target.checked);
-        settingsObj[settingsKey] = e.target.checked;
+    function handleChange(event: React.FormEvent<HTMLInputElement>) {
+        setChecked(!event.currentTarget.checked);
+        settingsObj[settingsKey] = event.currentTarget.checked;
         saveSettings(settingsObj);
     }
     return (
@@ -86,15 +85,20 @@ function CheckboxSetting({name, desc, settingsKey, settingsObj, ...props}:
     );
 }
 
-function CodeSetting({name, desc, config, settingsKey, settingsObj, height, width, json, ...props}:
-    {name: string, desc: string | Element, config: SimpleConfig, settingsKey: string, settingsObj: Settings, height: string, width: string, json?: boolean}) {
-    const initValue = json ? beautifyJSON(JSON.stringify(settingsObj[settingsKey])) : settingsObj[settingsKey];
+function CodeSetting({name, desc, config, settingsKey, settingsObj, height, width, json, enforceJsonObject, ...props}:
+    {name: string, desc: string | Element, config: SimpleConfig, settingsKey: string, settingsObj: Settings, height: string, width: string, json?: boolean, enforceJsonObject?: boolean}) {
+    const initValue = json ? JSON.stringify(settingsObj[settingsKey], null, '  ') : settingsObj[settingsKey];
     const [invalid, setInvalid] = useState('');
     function handleChange(value: string): void {
         if (json) {
             setInvalid('');
             try {
-                settingsObj[settingsKey] = JSON.parse(value);
+                const parsed = JSON.parse(value);
+                console.log(parsed);
+                if (enforceJsonObject && (typeof parsed != 'object' || Array.isArray(parsed) || parsed === null)) {
+                    throw new SyntaxError('Input is not a JSON object');
+                }
+                settingsObj[settingsKey] = parsed;
                 saveSettings(settingsObj);
             } catch (error) {
                 if (error instanceof SyntaxError) {
@@ -114,8 +118,8 @@ function CodeSetting({name, desc, config, settingsKey, settingsObj, height, widt
             {desc}
             <br />
             <br />
-            <div style={{height: height, width: width}}>
-                <SimpleCodeEditor config={{onChange: handleChange, value: initValue, ...config}} style={{overflowY: 'scroll', maxHeight: height, width: width}} />
+            <div style={{maxHeight: height, minHeight: 0, width: width}}>
+                <SimpleCodeEditor config={{onChange: handleChange, value: initValue, ...config}} style={{overflowY: 'scroll', maxHeight: height, minHeight: 0, width: width}} />
             </div>
             <br />
             {(invalid !== '') && 
@@ -275,6 +279,7 @@ function SettingsMenu({settings, ...props}: {className?: string, settings: Setti
                 height='500px'
                 width='500px'
                 json={true}
+                enforceJsonObject={true}
             />
             {/* <button onClick={() => applySettings(initialSettings, settings)}>Apply</button> */}
             <div style={{color: '#dddddd'}}>
