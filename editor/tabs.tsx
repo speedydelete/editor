@@ -24,13 +24,13 @@ function TabSpace() {
     );
 }
 
-function TabBar({children}: {children}) {
+function TabBar({children}: {children: React.ReactNode}) {
     return (
         <div className='editor-tab-bar'>{children}</div>
     );
 }
 
-function TabPanel({children, name}: {children, name: string}) {
+function TabPanel({children, name}: {children: React.ReactNode, name: string}) {
     const [selectedTab, setSelectedTab] = useContext(TabContext);
     return (
         <>
@@ -43,7 +43,7 @@ function TabPanel({children, name}: {children, name: string}) {
     );
 }
 
-function TabView({children, selected}: {children, selected?: string}) {
+function TabView({children, selected}: {children: React.ReactNode, selected?: string}) {
     const [selectedTab, setSelectedTab] = useState(selected === undefined ? '' : selected);
     React.useEffect(() => {
         if (selected && selected !== selectedTab) {

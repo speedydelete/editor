@@ -15,7 +15,6 @@ import {javascript} from '@codemirror/lang-javascript'
 import CodeMirrorMerge from 'react-codemirror-merge'
 import {type CompleteTheme, completeTheme, createThemeExtension} from './themes'
 import {type Settings, convertTabSize, defaultSettings} from './settings'
-import {type Language, loadLanguage} from './languages'
 import {vim} from '@replit/codemirror-vim'
 import {emacs} from '@replit/codemirror-emacs'
 
@@ -27,7 +26,7 @@ function bracketPairColorization(colors: string[]): Extension[] {
             decorations: DecorationSet;
             openingBrackets: string[] = ['(', '[', '{'];
             closingBrackets: string[] = [')', ']', '}'];
-            matchingBrackets: object = {')': '(', ']': '[', '}': '{'}
+            matchingBrackets: {[key: string]: string} = {')': '(', ']': '[', '}': '{'}
             constructor(view: EditorView) {
                 this.decorations = this.getBracketDecorations(view);
             }

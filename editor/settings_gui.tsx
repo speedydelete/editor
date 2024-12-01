@@ -11,9 +11,9 @@ function InputSetting({type, name, desc, settingsKey, settingsObj, ...props}:
     {type: string, name: string, desc: string, settingsKey: string, settingsObj: Settings}) {
     const id = 'editor-setting-input-' + settingsKey;
     const [value, setValue] = useState(settingsObj[settingsKey]);
-    function handleChange(e) {
-        setValue(e.target.value);
-        settingsObj[settingsKey] = e.target.value;
+    function handleChange(event: React.FormEvent<HTMLInputElement>) {
+        setValue(event.target.value);
+        settingsObj[settingsKey] = event.currentTarget.value;
         saveSettings(settingsObj);
     }
     return (
@@ -37,7 +37,7 @@ function InputSetting({type, name, desc, settingsKey, settingsObj, ...props}:
     );
 }
 
-function resetDefaultButton({settingsKey, settingsObj, ...props}) {
+function resetDefaultButton({settingsKey, settingsObj, ...props}: {settingsKey: string, settingsObj: Settings}): null {
     return (
         null
     );
