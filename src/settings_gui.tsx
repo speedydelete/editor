@@ -1,19 +1,19 @@
 
 import React, {type ReactNode, useState, createContext, useContext} from 'react'
 import {json} from '@codemirror/lang-json'
-import {type Settings, type SettingsKey, defaultSettings, saveSettings} from './settings'
+import {type Settings, type SettingsKey, type Saver, defaultSettings} from './settings'
 import {SimpleCodeEditor, SimpleConfig} from './simple_editor'
 
-const SettingsContext: React.Context<[Settings, React.Dispatch<React.SetStateAction<Settings>>]> = createContext<[Settings, React.Dispatch<React.SetStateAction<Settings>>]>([defaultSettings, () => {}]);
+const SettingsContext: React.Context<[Settings, React.Dispatch<React.SetStateAction<Settings>>, React.Dispatch<React.SetStateAction<Settings>>]> = createContext<[Settings, React.Dispatch<React.SetStateAction<Settings>>, React.Dispatch<React.SetStateAction<Settings>>]>([defaultSettings, () => null, () => null]);
 
 function BaseInput({type, setting, ...props}: {type: string, setting: SettingsKey}): ReactNode {
-    const [settingsObj, setSettingsObj] = useContext(SettingsContext);
+    const [settingsObj, setSettingsObj, saver] = useContext(SettingsContext);
     const [value, setValue] = useState(settingsObj[setting]);
     function handleChange(event: React.FormEvent<HTMLInputElement>) {
         const target = event.currentTarget;
         setValue(target.type == 'checkbox' ? target.checked : (target.type == 'number' ? target.valueAsNumber : target.value));
         setSettingsObj({...settingsObj, [setting]: event.currentTarget.value});
-        saveSettings(settingsObj);
+        saver(settingsObj);
     }
     return (
         <input
@@ -46,7 +46,7 @@ function CheckboxInput({setting, ...props}: {setting: SettingsKey}): ReactNode {
 
 function CodeInput({setting, config, height, width, json, enforceJsonObject, ...props}:
     {setting: SettingsKey, config: SimpleConfig, height?: string, width?: string, json?: boolean, enforceJsonObject?: boolean}): ReactNode {
-    const [settingsObj, setSettingsObj] = useContext(SettingsContext);
+    const [settingsObj, setSettingsObj, saver] = useContext(SettingsContext);
     const initValue = json ? JSON.stringify(settingsObj[setting], null, '  ') : settingsObj[setting];
     const [invalid, setInvalid] = useState('');
     function handleChange(value: string): void {
@@ -59,7 +59,7 @@ function CodeInput({setting, config, height, width, json, enforceJsonObject, ...
                     throw new SyntaxError('Input is not a JSON object');
                 }
                 setSettingsObj({...settingsObj, [setting]: parsed});
-                saveSettings(settingsObj);
+                saver(settingsObj);
             } catch (error) {
                 if (error instanceof SyntaxError) {
                     const msg = error.message.replace('JSON.parse: ', '');
@@ -141,11 +141,12 @@ function CodeSetting({name, desc, setting, config, height, width, json, enforceJ
     );
 }
 
-function SettingsMenu({settings, title, children, ...props}: {settings: Settings, title?: string, children: ReactNode[]}): ReactNode {
+function SettingsMenu({settings, saver, title, children, ...props}: 
+    {settings: Settings, saver?: Saver, title?: string, children: ReactNode[]}): ReactNode {
     const [settingsObj, setSettingsObj] = useState(settings);
     return (
         <div className='settings-wrapper' {...props}>
-            <SettingsContext.Provider value={[settingsObj, setSettingsObj]}>
+            <SettingsContext.Provider value={[settingsObj, setSettingsObj, saver]}>
                 {title && 
                     <>
                         <div className='settings-title'>{title}</div>
@@ -159,9 +160,9 @@ function SettingsMenu({settings, title, children, ...props}: {settings: Settings
     );
 }
 
-function DefaultSettingsMenu({settings, ...props}: {settings: Settings}): ReactNode {
+function DefaultSettingsMenu({settings, saver, ...props}: {settings: Settings, saver?: Saver}): ReactNode {
     return (
-        <SettingsMenu settings={settings} {...props}>
+        <SettingsMenu settings={settings} saver={saver} {...props}>
             <NumberSetting 
                 name='Tab Size'
                 desc='Controls the tab size of the editor (how many spaces equal 1 indent level)'

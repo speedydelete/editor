@@ -60,20 +60,6 @@ const defaultSettings: Settings = {
     lint: true,
 }
 
-function saveSettings(settings: Settings): void {
-    localStorage.setItem('ww-editor-settings', JSON.stringify(settings));
-}
-
-function loadSettings(): Settings {
-    // const storedSettings = localStorage.getItem('ww-editor-settings');
-    // if (storedSettings) {
-    //     return JSON.parse(storedSettings);
-    // } else {
-    //     return defaultSettings;
-    //}
-    return defaultSettings;
-}
-
 function convertTabSize(value: string, oldSize: number, newSize: number): string {
     return value.replace(/\t/g, ' '.repeat(oldSize)).split('\n').map(
         (line) => {
@@ -83,12 +69,28 @@ function convertTabSize(value: string, oldSize: number, newSize: number): string
     ).join('\n');
 }
 
+type Saver = (settings: Settings) => void;
+type Loader = () => Settings;
+
+function localStorageSaver(key: string): Saver {
+    return (settings: Settings): void => {
+        localStorage.setItem(key, JSON.stringify(settings));
+    }
+}
+
+function localStorageLoader(key: string): Loader {
+    return (): Settings => {
+        return JSON.parse(localStorage.getItem(key));
+    }
+}
+
 export {
     Settings,
     SettingsKey,
     SettingsValue,
+    Saver,
     defaultSettings,
-    saveSettings,
-    loadSettings,
     convertTabSize,
+    localStorageSaver,
+    localStorageLoader,
 }

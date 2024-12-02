@@ -1,7 +1,7 @@
 
 import React, {useState} from 'react'
 import {TabView, TabBar, Tab, TabSpace, TabPanel} from './tabs'
-import {resolveTheme, completeTheme, generateThemeCSS} from './themes'
+import {completeTheme, generateThemeCSS} from './themes'
 import {type Settings, defaultSettings} from './settings'
 import {SettingsMenu} from './settings_gui'
 import {type SimpleConfig, SimpleDualCodeEditor} from './simple_editor'

@@ -1,7 +1,7 @@
 
 import React, {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
-import CodeEditor from '../editor'
+import {ComplexCodeEditor, localStorageLoader} from '../src'
 import {html} from '@codemirror/lang-html'
 
 const testText = `<!DOCTYPE html>
@@ -53,10 +53,10 @@ root.render(
                 right: 0;
             }
         `}</style>
-        <CodeEditor.Complex config={{
+        <ComplexCodeEditor config={{
             value: testText,
             lang: html(),
-            settings: CodeEditor.loadSettings()
+            settings: localStorageLoader()
 		}} />
     </StrictMode>
 );
