@@ -65,12 +65,13 @@ function saveSettings(settings: Settings): void {
 }
 
 function loadSettings(): Settings {
-    const storedSettings = localStorage.getItem('ww-editor-settings');
-    if (storedSettings) {
-        return JSON.parse(storedSettings);
-    } else {
-        return defaultSettings;
-    }
+    // const storedSettings = localStorage.getItem('ww-editor-settings');
+    // if (storedSettings) {
+    //     return JSON.parse(storedSettings);
+    // } else {
+    //     return defaultSettings;
+    //}
+    return defaultSettings;
 }
 
 function convertTabSize(value: string, oldSize: number, newSize: number): string {

@@ -182,7 +182,7 @@ function createThemeExtension(theme: CompleteTheme, {doSyntaxHighlighting}: {doS
 }
 
 function generateSubThemeCSS(selector: string, theme: CompleteSubTheme): string {
-    selector = selector.replace(/\$/g, '.editor-editor .cm-editor');
+    selector = selector.replace(/\$/g, '.editor .cm-editor');
     if (selector.startsWith('%')) {
         selector = selector.slice(1);
     } else {
@@ -205,17 +205,17 @@ function generateSubThemeCSS(selector: string, theme: CompleteSubTheme): string 
 
 function generateThemeCSS(theme: CompleteTheme): string {
     return `
-        ${generateSubThemeCSS('.editor-wrapper-wrapper, $.cm-content', theme)}
+        ${generateSubThemeCSS('%.editor-wrapper, .editor-wrapper $.cm-content', theme)}
         ${generateSubThemeCSS('$', theme.editor)}
         ${generateSubThemeCSS('$ .cm-gutters, $ .cm-gutter', theme.lineNumber)}
         ${generateSubThemeCSS('$ .cm-activeLineGutter', theme.lineNumber.active)}
         ${generateSubThemeCSS('$.cm-focused .cm-selectionBackground, ::selection', theme.selection)}
         ${generateSubThemeCSS('$ .cm-selectionMatch', theme.selectionMatch)}
         ${generateSubThemeCSS('$ .cm-foldPlaceholder', theme.fold)}
-        ${generateSubThemeCSS('.editor-top-bar', theme.topBar)}
-        ${generateSubThemeCSS('.editor-tab-bar, .editor-tab', theme.tab)}
-        ${generateSubThemeCSS('.editor-active-tab', theme.tab.active)}
-        ${generateSubThemeCSS('.editor-settings-wrapper, .editor-setting, .editor-tab-panel:has(> .editor-settings-wrapper)', theme.settings)}
+        ${generateSubThemeCSS('.top-bar', theme.topBar)}
+        ${generateSubThemeCSS('.tab-bar, .tab', theme.tab)}
+        ${generateSubThemeCSS('.active-tab', theme.tab.active)}
+        ${generateSubThemeCSS('.settings-wrapper, .setting, tab-panel:has(> .settings-wrapper)', theme.settings)}
         ${generateSubThemeCSS('button', theme.button)}
         ${generateSubThemeCSS('button:hover', theme.button.active)}
         ${generateSubThemeCSS(':is(input[type=text], input[type=password], input[type=email])', theme.textInput)}

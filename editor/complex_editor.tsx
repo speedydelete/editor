@@ -5,6 +5,7 @@ import {resolveTheme, completeTheme, generateThemeCSS} from './themes'
 import {type Settings, defaultSettings} from './settings'
 import {SettingsMenu} from './settings_gui'
 import {type SimpleConfig, SimpleDualCodeEditor} from './simple_editor'
+import './style.css'
 
 interface ComplexConfig extends SimpleConfig {
     oldValue?: string,
@@ -22,6 +23,7 @@ function ComplexCodeEditor({className, config, ...props}: {className?: string, c
         setShowChanges(!showChanges);
         return;
     }
+    console.log(generateThemeCSS(theme));
     return (
         <div {...props}>
             <style>{generateThemeCSS(theme)}</style>

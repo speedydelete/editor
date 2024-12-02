@@ -134,6 +134,6 @@
                 "border": "#cccccc"
             }
         },
-        "css": ".editor-wrapper-wrapper :is(a, a:visited) { text-decoration: none; color: #0078d4; }"
+        "css": ".editor-wrapper :is(a, a:visited) { text-decoration: none; color: #0078d4; }"
     }
 }
