@@ -22,7 +22,6 @@ function ComplexCodeEditor({className, config, ...props}: {className?: string, c
         setShowChanges(!showChanges);
         return;
     }
-    // console.log(generateThemeCSS(theme));
     return (
         <div {...props}>
             <style>{generateThemeCSS(theme)}</style>

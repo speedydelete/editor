@@ -186,7 +186,7 @@ function generateSubThemeCSS(selector: string, theme: CompleteSubTheme): string 
     if (selector.startsWith('%')) {
         selector = selector.slice(1);
     } else {
-        selector = '.editor-wrapper-wrapper :is(' + selector + ')';
+        selector = '.editor-wrapper :is(' + selector + ')';
     }
     return `
         ${selector} {
