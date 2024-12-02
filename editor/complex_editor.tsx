@@ -24,7 +24,7 @@ function ComplexCodeEditor({className, config, ...props}: {className?: string, c
     }
     // console.log(generateThemeCSS(theme));
     return (
-        <div className='editor-wrapper-wrapper' {...props}>
+        <div {...props}>
             <style>{generateThemeCSS(theme)}</style>
             <div className='editor-wrapper'>
                 <div>
