@@ -28,7 +28,7 @@ function ComplexCodeEditor({className, config, ...props}: {className?: string, c
             <style>{generateThemeCSS(theme)}</style>
             <div className='editor-wrapper'>
                 <div>
-                    <div className='editor-top-bar'>
+                    <div className='top-bar'>
                         <button className='save-button' onClick={handleSave()}>Save</button>
                         <button className='show-changes-button' onClick={handleShowChanges}>
                             {!showChanges && 'Show'}{showChanges && 'Hide'} changes

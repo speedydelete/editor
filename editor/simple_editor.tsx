@@ -115,7 +115,7 @@ function SimpleCodeEditor({config, ...props}: {config: SimpleConfig}) {
     if (settings === undefined) settings = defaultSettings;
     value = value === undefined ? '' : convertTabSize(value, 2, settings.tabSize);
     return (
-        <div className=' editor-editor' {...props}>
+        <div className='editor' {...props}>
             <CodeMirror value={value} extensions={getExtensions(settings, readOnly, lang)} onChange={onChange} />
         </div>
     );
@@ -128,7 +128,7 @@ function SimpleDualCodeEditor({config, ...props}: {config: SimpleDualConfig}) {
     value = value === undefined ? '' : convertTabSize(value, 2, settings.tabSize);
     oldValue = oldValue === undefined ? '' : convertTabSize(oldValue, 2, settings.tabSize);
     return (
-        <div className='editor-editor editor-dual-editor' {...props}>
+        <div className='editor dual-editor' {...props}>
             {!showChanges && 
                 <CodeMirror value={value} extensions={getExtensions(settings, readOnly, lang)} onChange={onChange} />
             }

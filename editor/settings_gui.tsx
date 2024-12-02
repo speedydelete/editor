@@ -7,7 +7,6 @@ import {SimpleCodeEditor, SimpleConfig} from './simple_editor'
 const SettingsContext: React.Context<[Settings, React.Dispatch<React.SetStateAction<Settings>>]> = createContext<[Settings, React.Dispatch<React.SetStateAction<Settings>>]>([defaultSettings, () => {}]);
 
 function BaseInput({type, setting, ...props}: {type: string, setting: SettingsKey}): ReactNode {
-    const id = 'editor-setting-input-' + setting;
     const [settingsObj, setSettingsObj] = useContext(SettingsContext);
     const [value, setValue] = useState(settingsObj[setting]);
     function handleChange(event: React.FormEvent<HTMLInputElement>) {
@@ -18,12 +17,11 @@ function BaseInput({type, setting, ...props}: {type: string, setting: SettingsKe
     }
     return (
         <input
-            className='editor-setting-input'
             type={type}
-            id={id}
             onChange={handleChange}
             value={typeof value == 'number' || typeof value == 'string' ? value : null}
             checked={typeof value == 'boolean' ? value : null}
+            {...props}
         />
     );
 }
@@ -74,7 +72,7 @@ function CodeInput({setting, config, height, width, json, enforceJsonObject, ...
         }
     }
     return (
-        <div className='editor-setting-input' {...props}>
+        <div className='setting-input' {...props}>
             <div style={{maxHeight: height, minHeight: 0, width: width}}>
                 <SimpleCodeEditor config={{onChange: handleChange, value: initValue, ...config}} style={{overflowY: 'scroll', maxHeight: height, minHeight: 0, width: width}} />
             </div>
@@ -88,8 +86,8 @@ function CodeInput({setting, config, height, width, json, enforceJsonObject, ...
 
 function Setting({name, desc, children, ...props}: {name: string, desc: string, children: ReactNode}): ReactNode {
     return (
-        <div className='editor-setting' {...props}>
-            <div className='editor-setting-name'>{name}</div>
+        <div className='setting' {...props}>
+            <div className='setting-name'>{name}</div>
             <br />
             <span>{desc}</span>
             <br />
@@ -120,9 +118,9 @@ function NumberSetting({name, desc, setting, ...props}: {name: string, desc: str
 
 function CheckboxSetting({name, desc, setting, ...props}: {name: string, desc: string, setting: SettingsKey}): ReactNode {
     return (
-        <div className='editor-setting' {...props}>
-            <div className='editor-setting-name'>{name}</div><br />
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <div className='setting' {...props}>
+            <div className='setting-name'>{name}</div><br />
+            <div>
                 <CheckboxInput setting={setting} />
                 &nbsp;
                 <span>{desc}</span>
@@ -146,11 +144,11 @@ function CodeSetting({name, desc, setting, config, height, width, json, enforceJ
 function SettingsMenu({settings, title, children, ...props}: {settings: Settings, title?: string, children: ReactNode[]}): ReactNode {
     const [settingsObj, setSettingsObj] = useState(settings);
     return (
-        <div className='editor-settings-wrapper' {...props}>
+        <div className='settings-wrapper' {...props}>
             <SettingsContext.Provider value={[settingsObj, setSettingsObj]}>
                 {title && 
                     <>
-                        <div className='editor-settings-title'>{title}</div>
+                        <div className='settings-title'>{title}</div>
                         <br />
                         <br />
                     </>

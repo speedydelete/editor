@@ -1,33 +1,26 @@
 
-.editor-wrapper-wrapper {
+.editor-wrapper {
     box-sizing: border-box;
     height: 100%;
-}
-
-.editor-wrapper-wrapper * {
-    box-sizing: border-box;
-}
-
-.editor-wrapper-wrapper button {
-    padding: 5px;
-}
-
-.editor-wrapper {
-    height: 100%;
-}
-
-.editor-wrapper {
     display: flex;
     flex-direction: column;
 }
 
-.editor-top-bar {
+.editor-wrapper * {
+    box-sizing: border-box;
+}
+
+.editor-wrapper button {
+    padding: 5px;
+}
+
+.editor-wrapper .top-bar {
     width: 100%;
     padding: 10px;
     border-bottom: none!important;
 }
 
-.editor-top-bar:first-child {
+.editor-wrapper .top-bar:first-child {
     display: inline;
     height: 100%;
     display: flex;
@@ -37,13 +30,13 @@
     align-items: center;
 }
 
-.editor-tab-view {
+.editor-wrapper .tab-view:first-child {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
-.editor-tab-bar {
+.editor-wrapper .tab-bar {
     height: 30px;
     width: 100%;
     display: flex;
@@ -52,7 +45,7 @@
     border-top: none!important;
 }
 
-.editor-tab {
+.editor-wrapper .tab {
     height: 100%;
     padding: 5px 10px;
     text-align: center;
@@ -61,42 +54,48 @@
     user-select: none;
 }
 
-.editor-tab-space {
+.editor-wrapper .tab-space {
     border: none!important;
 }
 
-.editor-tab-panel {
+.editor-wrapper .tab-panel {
     flex-grow: 1;
     overflow-y: auto;
     height: 0;
 }
 
-.editor-editor, .editor-settings-wrapper {
+.editor-wrapper :is(.editor, .settings-wrapper) {
     flex-grow: 1;
     width: 100%;
     height: 100%;
 }
 
-.editor-settings-wrapper {
+.editor-wrapper .settings-wrapper {
     padding: 10px;
 }
 
-.editor-settings-title, .editor-setting-name {
+.editor-wrapper .settings-title, .setting-name {
     color: #ffffff;
     font-weight: "bold";
 }
 
-.editor-settings-title {
+.editor-wrapper .settings-title {
     font-size: 24px;
 }
 
-.editor-setting input[type=checkbox] {
+.editor-wrapper .settings-wrapper div > input[type=checkbox] {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.editor-wrapper input[type=checkbox] {
     appearance: none;
     height: 14px;
     width: 14px;
     user-select: none;
 }
 
-.editor-setting input[type=checkbox]:checked {
+.editor-wrapper input[type=checkbox]:checked {
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 16 16'><line x1='2' y1='9' x2='6' y2='13' stroke='white' /><line x1='6' y1='13' x2='14' y2='3' stroke='white' /></svg>");
 }

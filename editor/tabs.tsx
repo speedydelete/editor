@@ -7,7 +7,7 @@ function Tab({name, displayName}: {name: string, displayName?: string}) {
     const [selectedTab, setSelectedTab] = useContext(TabContext);
     return (
         <div
-            className={selectedTab == name ? 'editor-tab editor-active-tab' : 'editor-tab'}
+            className={selectedTab == name ? 'tab active-tab' : 'tab'}
             id={`editor-tab-${name}`}
             onClick={function () {
                 setSelectedTab(name);
@@ -20,13 +20,13 @@ function Tab({name, displayName}: {name: string, displayName?: string}) {
 
 function TabSpace() {
     return (
-        <div className='editor-tab editor-tab-space' style={{flexGrow: 1}}></div>
+        <div className='tab tab-space' style={{flexGrow: 1}}></div>
     );
 }
 
 function TabBar({children}: {children: React.ReactNode}) {
     return (
-        <div className='editor-tab-bar'>{children}</div>
+        <div className='tab-bar'>{children}</div>
     );
 }
 
@@ -35,7 +35,7 @@ function TabPanel({children, name}: {children: React.ReactNode, name: string}) {
     return (
         <>
             {(selectedTab === name) && 
-                <div className='editor-tab-panel'>
+                <div className='tab-panel'>
                     {children}
                 </div>
             }
@@ -51,7 +51,7 @@ function TabView({children, selected}: {children: React.ReactNode, selected?: st
         }
     }, [selected]);
     return (
-        <div className='editor-tab-view'>
+        <div className='tab-view'>
             <TabContext.Provider value={[selectedTab, setSelectedTab]}>
                 {children}
             </TabContext.Provider>
