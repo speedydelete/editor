@@ -29,6 +29,9 @@ interface Settings {
     lint: boolean,
 }
 
+type SettingsKey = keyof Settings;
+type SettingsValue = Settings[SettingsKey];
+
 const defaultSettings: Settings = {
     version: 1,
     tabSize: 2,
@@ -81,6 +84,8 @@ function convertTabSize(value: string, oldSize: number, newSize: number): string
 
 export {
     Settings,
+    SettingsKey,
+    SettingsValue,
     defaultSettings,
     saveSettings,
     loadSettings,

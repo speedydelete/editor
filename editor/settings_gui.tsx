@@ -1,93 +1,55 @@
 
-import React, {useState} from 'react'
+import React, {useState, createContext, useContext} from 'react'
 import {json} from '@codemirror/lang-json'
-import {type Settings, saveSettings} from './settings'
+import {type Settings, type SettingsKey, defaultSettings, saveSettings} from './settings'
 import {SimpleCodeEditor, SimpleConfig} from './simple_editor'
 
-type Element = React.JSX.Element;
+const SettingsContext: React.Context<[Settings, React.Dispatch<React.SetStateAction<Settings>>]> = createContext<[Settings, React.Dispatch<React.SetStateAction<Settings>>]>([defaultSettings, () => {}]);
 
-function InputSetting({type, name, desc, settingsKey, settingsObj, ...props}: 
-    {type: string, name: string, desc: string, settingsKey: string, settingsObj: Settings}) {
-    const id = 'editor-setting-input-' + settingsKey;
-    const [value, setValue] = useState(settingsObj[settingsKey]);
+function BaseInput({type, setting, ...props}: {type: string, setting: SettingsKey}): React.ReactNode {
+    const id = 'editor-setting-input-' + setting;
+    const [settingsObj, setSettingsObj] = useContext(SettingsContext);
+    const [value, setValue] = useState(settingsObj[setting]);
     function handleChange(event: React.FormEvent<HTMLInputElement>) {
-        setValue(event.target.value);
-        settingsObj[settingsKey] = event.currentTarget.value;
+        const target = event.currentTarget;
+        setValue(target.type == 'checkbox' ? target.checked : (target.type == 'number' ? target.valueAsNumber : target.value));
+        setSettingsObj({...settingsObj, [setting]: event.currentTarget.value});
         saveSettings(settingsObj);
     }
     return (
-        <div className={' editor-setting editor-setting-' + type} {...props}>
-            <div className='editor-setting-name'>{name}</div>
-            <br />
-            {desc}
-            <br />
-            <br />
-            <input
-                className='editor-setting-input'
-                type={type}
-                id={id}
-                onChange={handleChange}
-                value={value}
-            />
-            <br />
-            <br />
-            <br />
-        </div>
+        <input
+            className='editor-setting-input'
+            type={type}
+            id={id}
+            onChange={handleChange}
+            value={typeof value == 'number' || typeof value == 'string' ? value : null}
+            checked={typeof value == 'boolean' ? value : null}
+        />
     );
 }
 
-function resetDefaultButton({settingsKey, settingsObj, ...props}: {settingsKey: string, settingsObj: Settings}): null {
+function TextInput({setting, ...props}: {setting: SettingsKey}): React.ReactNode {
     return (
-        null
+        <BaseInput type='text' setting={setting} {...props} />
     );
 }
 
-function TextSetting({name, desc, settingsKey, settingsObj, ...props}: 
-    {name: string, desc: string, settingsKey: string, settingsObj: Settings}) {
+function NumberInput({setting, ...props}: {setting: SettingsKey}): React.ReactNode {
     return (
-        <InputSetting type='text' name={name} desc={desc} settingsKey={settingsKey} settingsObj={settingsObj} {...props} />
+        <BaseInput type='number' setting={setting} {...props} />
     );
 }
 
-function NumberSetting({name, desc, settingsKey, settingsObj, ...props}: 
-    {name: string, desc: string, settingsKey: string, settingsObj: Settings}) {
+function CheckboxInput({setting, ...props}: {setting: SettingsKey}): React.ReactNode {
     return (
-        <InputSetting type='number' name={name} desc={desc} settingsKey={settingsKey} settingsObj={settingsObj} {...props} />
+        <BaseInput type='checkbox' setting={setting} {...props} />
     );
 }
 
-function CheckboxSetting({name, desc, settingsKey, settingsObj, ...props}: 
-    {name: string, desc: string, settingsKey: string, settingsObj: Settings}) {
-    const id = 'editor-setting-input-' + settingsKey;
-    const [checked, setChecked] = useState(settingsObj[settingsKey]);
-    function handleChange(event: React.FormEvent<HTMLInputElement>) {
-        setChecked(!event.currentTarget.checked);
-        settingsObj[settingsKey] = event.currentTarget.checked;
-        saveSettings(settingsObj);
-    }
-    return (
-        <div className=' editor-setting editor-setting-checkbox' {...props}>
-            <div className='editor-setting-name'>{name}</div><br />
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                <input
-                    className='editor-setting-input'
-                    type='checkbox'
-                    id={id}
-                    onChange={handleChange}
-                    defaultChecked={checked}
-                />&nbsp;
-                <span>{desc}</span>
-            </div>
-            <br />
-            <br />
-            <br />
-        </div>
-    );
-}
-
-function CodeSetting({name, desc, config, settingsKey, settingsObj, height, width, json, enforceJsonObject, ...props}:
-    {name: string, desc: string | Element, config: SimpleConfig, settingsKey: string, settingsObj: Settings, height: string, width: string, json?: boolean, enforceJsonObject?: boolean}) {
-    const initValue = json ? JSON.stringify(settingsObj[settingsKey], null, '  ') : settingsObj[settingsKey];
+function CodeInput({setting, config, height, width, json, enforceJsonObject, ...props}:
+    {setting: SettingsKey, config: SimpleConfig, height?: string, width?: string, json?: boolean, enforceJsonObject?: boolean}): React.ReactNode {
+    const [settingsObj, setSettingsObj] = useContext(SettingsContext);
+    const initValue = json ? JSON.stringify(settingsObj[setting], null, '  ') : settingsObj[setting];
     const [invalid, setInvalid] = useState('');
     function handleChange(value: string): void {
         if (json) {
@@ -98,7 +60,7 @@ function CodeSetting({name, desc, config, settingsKey, settingsObj, height, widt
                 if (enforceJsonObject && (typeof parsed != 'object' || Array.isArray(parsed) || parsed === null)) {
                     throw new SyntaxError('Input is not a JSON object');
                 }
-                settingsObj[settingsKey] = parsed;
+                setSettingsObj({...settingsObj, [setting]: parsed});
                 saveSettings(settingsObj);
             } catch (error) {
                 if (error instanceof SyntaxError) {
@@ -112,12 +74,7 @@ function CodeSetting({name, desc, config, settingsKey, settingsObj, height, widt
         }
     }
     return (
-        <div className='editor-setting editor-setting-code' {...props}>
-            <div className='editor-setting-name'>{name}</div>
-            <br />
-            {desc}
-            <br />
-            <br />
+        <div className='editor-setting-input' {...props}>
             <div style={{maxHeight: height, minHeight: 0, width: width}}>
                 <SimpleCodeEditor config={{onChange: handleChange, value: initValue, ...config}} style={{overflowY: 'scroll', maxHeight: height, minHeight: 0, width: width}} />
             </div>
@@ -125,172 +82,206 @@ function CodeSetting({name, desc, config, settingsKey, settingsObj, height, widt
             {(invalid !== '') && 
                 <div style={{color: 'red'}}>{invalid}</div>
             }
+        </div>
+    );
+}
+
+function Setting({name, desc, children, ...props}: {name: string, desc: string, children: React.ReactNode}): React.ReactNode {
+    return (
+        <div className='editor-setting' {...props}>
+            <div className='editor-setting-name'>{name}</div>
+            <br />
+            <span>{desc}</span>
+            <br />
+            <br />
+            {children}
+            <br />
             <br />
             <br />
         </div>
     );
 }
 
-function SettingsMenu({settings, ...props}: {className?: string, settings: Settings}) {
-    const initialSettings = JSON.parse(JSON.stringify(settings));
+function TextSetting({name, desc, setting, ...props}: {name: string, desc: string, setting: SettingsKey}): React.ReactNode {
     return (
-        <div className='editor-settings-wrapper' {...props}>
-            <div className='editor-settings-title'>Settings</div>
-            <br />
-            <br />
-            <NumberSetting 
-                name='Tab Size'
-                desc='Controls the tab size of the editor (how many spaces equal 1 indent level)'
-                settingsKey='tabSize'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Vim Keybindings'
-                desc='Enables Vim keybindings'
-                settingsKey='vim'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Emacs Keybindings'
-                desc='Enables Emacs keybindings'
-                settingsKey='emacs'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Syntax Highlighting'
-                desc='Whether to highlight code based on what it does'
-                settingsKey='syntaxHighlighting'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Collapse Unchanged'
-                desc='Whether to collapse unchanged lines when changes are shown'
-                settingsKey='collapseUnchanged'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Highlight Special Characters'
-                desc='Whether to highlight various special characters'
-                settingsKey='highlightSpecialChars'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Draw Selection'
-                desc='Whether to enable drawing of selection of text'
-                settingsKey='drawSelection'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Multiple Selections'
-                desc='Whether to enable multiple selections'
-                settingsKey='multipleSelections'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Rectangular Selection'
-                desc='Whether to enable rectangular selections'
-                settingsKey='rectangularSelection'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Drop Cursor'
-                desc='Whether to enable a drop cursor'
-                settingsKey='dropCursor'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Highlight Selection Matches'
-                desc='Whether to highlight selection matches'
-                settingsKey='highlightSelectionMatches'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Highlight Active Line Number'
-                desc='Whether to highlight the active line number'
-                settingsKey='highlightActiveLineGutter'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Undo/Redo'
-                desc='Whether to enable undoing/redoing'
-                settingsKey='history'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Autoindent'
-                desc='Whether to automatically indent'
-                settingsKey='indentOnInput'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Highlight Matching Brackets'
-                desc='Whether to highlight brackets that match the bracket the cursor is on'
-                settingsKey='bracketMatching'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Auto-close Brackets'
-                desc='Whether to automatically close brackets'
-                settingsKey='closeBrackets'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Autocompletion'
-                desc='Whether to do autocompletion'
-                settingsKey='autocompletion'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Indent With Tab'
-                desc='Whether to enable indentation with tab'
-                settingsKey='indentWithTab'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Bracket Pair Colorization'
-                desc='Whether to enable bracket pair colorization (matching brackets have the same color, brackets are colored by nesting level)'
-                settingsKey='bracketPairColorization'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Code Folding'
-                desc='Whether to enable code folding'
-                settingsKey='codeFolding'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Search'
-                desc='Whether to enable search'
-                settingsKey='search'
-                settingsObj={settings}
-            />
-            <CheckboxSetting
-                name='Linting'
-                desc='Whether to enable code linting'
-                settingsKey='lint'
-                settingsObj={settings}
-            />
-            <CodeSetting
-                name='Theme'
-                desc={<span>Custom theme settings (<a href='https://speedydelete.com/ww/vscode_theme.json'>default value</a>).</span>}
-                config={{lang: json(), settings: settings}}
-                settingsKey='theme'
-                settingsObj={settings}
-                height='500px'
-                width='500px'
-                json={true}
-                enforceJsonObject={true}
-            />
-            {/* <button onClick={() => applySettings(initialSettings, settings)}>Apply</button> */}
-            <div style={{color: '#dddddd'}}>
-                Editor v1.1.0 | <a href="https://github.com/speedydelete/editor">GitHub</a>
-                <br />
-                Created by <a href={window.location.hostname.includes('wildwest.gg') ? 'https://www.wildwest.gg/u/speedydelete' : 'https://speedydelete.com/'}>speedydelete</a>
+        <Setting name={name} desc={desc} {...props}>
+            <TextInput setting={setting} />
+        </Setting>
+    );
+}
+
+function NumberSetting({name, desc, setting, ...props}: {name: string, desc: string, setting: SettingsKey}): React.ReactNode {
+    return (
+        <Setting name={name} desc={desc} {...props}>
+            <NumberInput setting={setting} />
+        </Setting>
+    );
+}
+
+function CheckboxSetting({name, desc, setting, ...props}: {name: string, desc: string, setting: SettingsKey}): React.ReactNode {
+    return (
+        <div className='editor-setting' {...props}>
+            <div className='editor-setting-name'>{name}</div><br />
+            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+                <CheckboxInput setting={setting} />
+                &nbsp;
+                <span>{desc}</span>
             </div>
             <br />
             <br />
             <br />
-            <br />
+        </div>
+    );
+}
+
+function CodeSetting({name, desc, setting, config, height, width, json, enforceJsonObject, ...props}:
+    {name: string, desc: string, setting: SettingsKey, config: SimpleConfig, height?: string, width?: string, json?: boolean, enforceJsonObject?: boolean}): React.ReactNode {
+    return (
+        <Setting name={name} desc={desc} {...props}>
+            <CodeInput setting={setting} config={config} height={height} width={width} json={json} enforceJsonObject={enforceJsonObject} />
+        </Setting>
+    );
+}
+
+function SettingsMenu({settings, ...props}: {settings: Settings}): React.ReactNode {
+    const [settingsObj, setSettingsObj] = useState(settings);
+    return (
+        <div className='editor-settings-wrapper' {...props}>
+            <SettingsContext.Provider value={[settingsObj, setSettingsObj]}>
+                <div className='editor-settings-title'>Settings</div>
+                <br />
+                <br />
+                <NumberSetting 
+                    name='Tab Size'
+                    desc='Controls the tab size of the editor (how many spaces equal 1 indent level)'
+                    setting='tabSize'
+                />
+                <CheckboxSetting
+                    name='Vim Keybindings'
+                    desc='Enables Vim keybindings'
+                    setting='vim'
+                />
+                <CheckboxSetting
+                    name='Emacs Keybindings'
+                    desc='Enables Emacs keybindings'
+                    setting='emacs'
+                />
+                <CheckboxSetting
+                    name='Syntax Highlighting'
+                    desc='Whether to highlight code based on what it does'
+                    setting='syntaxHighlighting'
+                />
+                <CheckboxSetting
+                    name='Collapse Unchanged'
+                    desc='Whether to collapse unchanged lines when changes are shown'
+                    setting='collapseUnchanged'
+                />
+                <CheckboxSetting
+                    name='Highlight Special Characters'
+                    desc='Whether to highlight various special characters'
+                    setting='highlightSpecialChars'
+                />
+                <CheckboxSetting
+                    name='Draw Selection'
+                    desc='Whether to enable drawing of selection of text'
+                    setting='drawSelection'
+                />
+                <CheckboxSetting
+                    name='Multiple Selections'
+                    desc='Whether to enable multiple selections'
+                    setting='multipleSelections'
+                />
+                <CheckboxSetting
+                    name='Rectangular Selection'
+                    desc='Whether to enable rectangular selections'
+                    setting='rectangularSelection'
+                />
+                <CheckboxSetting
+                    name='Drop Cursor'
+                    desc='Whether to enable a drop cursor'
+                    setting='dropCursor'
+                />
+                <CheckboxSetting
+                    name='Highlight Selection Matches'
+                    desc='Whether to highlight selection matches'
+                    setting='highlightSelectionMatches'
+                />
+                <CheckboxSetting
+                    name='Highlight Active Line Number'
+                    desc='Whether to highlight the active line number'
+                    setting='highlightActiveLineGutter'
+                />
+                <CheckboxSetting
+                    name='Undo/Redo'
+                    desc='Whether to enable undoing/redoing'
+                    setting='history'
+                />
+                <CheckboxSetting
+                    name='Autoindent'
+                    desc='Whether to automatically indent'
+                    setting='indentOnInput'
+                />
+                <CheckboxSetting
+                    name='Highlight Matching Brackets'
+                    desc='Whether to highlight brackets that match the bracket the cursor is on'
+                    setting='bracketMatching'
+                />
+                <CheckboxSetting
+                    name='Auto-close Brackets'
+                    desc='Whether to automatically close brackets'
+                    setting='closeBrackets'
+                />
+                <CheckboxSetting
+                    name='Autocompletion'
+                    desc='Whether to do autocompletion'
+                    setting='autocompletion'
+                />
+                <CheckboxSetting
+                    name='Indent With Tab'
+                    desc='Whether to enable indentation with tab'
+                    setting='indentWithTab'
+                />
+                <CheckboxSetting
+                    name='Bracket Pair Colorization'
+                    desc='Whether to enable bracket pair colorization (matching brackets have the same color, brackets are colored by nesting level)'
+                    setting='bracketPairColorization'
+                />
+                <CheckboxSetting
+                    name='Code Folding'
+                    desc='Whether to enable code folding'
+                    setting='codeFolding'
+                />
+                <CheckboxSetting
+                    name='Search'
+                    desc='Whether to enable search'
+                    setting='search'
+                />
+                <CheckboxSetting
+                    name='Linting'
+                    desc='Whether to enable code linting'
+                    setting='lint'
+                />
+                <CodeSetting
+                    name='Theme'
+                    desc='Custom theme settings, do not change the code unless you know what you are doing.'
+                    config={{lang: json(), settings: settings}}
+                    setting='theme'
+                    height='500px'
+                    width='500px'
+                    json={true}
+                    enforceJsonObject={true}
+                />
+                {/* <button onClick={() => applySettings(initialSettings, settings)}>Apply</button> */}
+                <div style={{color: '#dddddd'}}>
+                    Editor v1.1.0 | <a href="https://github.com/speedydelete/editor">GitHub</a>
+                    <br />
+                    Created by <a href={window.location.hostname.includes('wildwest.gg') ? 'https://www.wildwest.gg/u/speedydelete' : 'https://speedydelete.com/'}>speedydelete</a>
+                </div>
+                <br />
+                <br />
+                <br />
+                <br />
+            </SettingsContext.Provider>
         </div>
     );
 }
