@@ -53,6 +53,7 @@ window.addEventListener('load', function() {
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
+const settings = localStorageLoader('editor-settings')();
 root.render(
     <StrictMode>
         <TabbedEditor config={{
@@ -72,9 +73,9 @@ root.render(
             <DualEditorPanel name='index.html' config={{
                 value: testText,
                 lang: html(),
-                settings: localStorageLoader('editor-settings')(),
+                settings: settings,
             }} />
-            <SimpleSettingsPanel right={true} />
+            <SimpleSettingsPanel name='settings' settings={settings} />
         </TabbedEditor>
     </StrictMode>
 );

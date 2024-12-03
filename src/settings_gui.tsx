@@ -19,7 +19,7 @@ function BaseInput({type, setting, ...props}: {type: string, setting: SettingsKe
         <input
             type={type}
             onChange={handleChange}
-            value={typeof value == 'number' || typeof value == 'string' ? value : null}
+            value={typeof value == 'number' || typeof value == 'string' ? value : ''}
             checked={typeof value == 'boolean' ? value : null}
             {...props}
         />
@@ -162,7 +162,7 @@ function SettingsMenu({settings, saver, title, children, ...props}:
 
 function SimpleSettingsMenu({settings, saver, ...props}: {settings: Settings, saver?: Saver}): ReactNode {
     return (
-        <SettingsMenu settings={settings} saver={saver} {...props}>
+        <SettingsMenu settings={settings} saver={saver} {...props} title='Settings'>
             <NumberSetting 
                 name='Tab Size'
                 desc='Controls the tab size of the editor (how many spaces equal 1 indent level)'
@@ -284,15 +284,11 @@ function SimpleSettingsMenu({settings, saver, ...props}: {settings: Settings, sa
                 enforceJsonObject={true}
             />
             {/* <button onClick={() => applySettings(initialSettings, settings)}>Apply</button> */}
-            <div style={{color: '#dddddd'}}>
+            <div style={{color: '#dddddd', marginBottom: '125px'}}>
                 Editor v1.1.0 | <a href="https://github.com/speedydelete/editor">GitHub</a>
                 <br />
                 Created by <a href={window.location.hostname.includes('wildwest.gg') ? 'https://www.wildwest.gg/u/speedydelete' : 'https://speedydelete.com/'}>speedydelete</a>
             </div>
-            <br />
-            <br />
-            <br />
-            <br />
         </SettingsMenu>
     );
 }
