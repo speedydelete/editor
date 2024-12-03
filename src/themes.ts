@@ -154,7 +154,7 @@ function completeTheme(theme: Theme): CompleteTheme {
     }
 }
 
-function createThemeExtension(theme: CompleteTheme, {doSyntaxHighlighting}: {doSyntaxHighlighting?: boolean}): Extension[] {
+function createThemeExtension(theme: CompleteTheme): Extension {
     let tokenSettings: {tag: Tag | Tag[], [key: string]: any}[] = [];
     for (const [key, value] of Object.entries(theme.tokenColors)) {
         try {
@@ -169,16 +169,7 @@ function createThemeExtension(theme: CompleteTheme, {doSyntaxHighlighting}: {doS
             console.warn(`Invalid key in tokenColors:\nkey: \`${key}\`\ncode: \`'use strict';${tagDeconstructor}return ${key};\`\nerror: ${error}`);
         }
     }
-    let out: Extension[] = [
-        EditorView.theme({
-            '.cm-activeLine': {backgroundColor: 'unset!important'},
-            '.cm-changedText': {backgroundSize: '100%!important'},
-        }, {dark: theme.dark}),
-    ]
-    if (doSyntaxHighlighting) {
-        out.push(syntaxHighlighting(HighlightStyle.define(tokenSettings)));
-    }
-    return out;
+    return syntaxHighlighting(HighlightStyle.define(tokenSettings));
 }
 
 function generateSubThemeCSS(selector: string, theme: CompleteSubTheme): string {

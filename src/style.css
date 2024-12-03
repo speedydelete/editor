@@ -78,6 +78,14 @@
     height: 100%;
 }
 
+.editor-wrapper .cm-activeLine {
+    background-color: unset!important;
+}
+
+.editor-wrapper .cm-changedText {
+    background-size: 100%!important;
+}
+
 .editor-wrapper .settings-wrapper {
     padding: 10px;
 }

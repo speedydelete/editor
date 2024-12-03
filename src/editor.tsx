@@ -68,9 +68,9 @@ function getExtensions(settings: Settings, readOnly?: boolean, lang?: Extension)
         highlightActiveLine(),
         EditorState.tabSize.of(settings.tabSize),
         indentUnit.of(' '.repeat(settings.tabSize)),
-        createThemeExtension(theme, {doSyntaxHighlighting: settings.syntaxHighlighting}),
         (readOnly ? [EditorView.editable.of(false), EditorState.readOnly.of(true)] : []),
     ];
+    if (settings.syntaxHighlighting) extensions.push(createThemeExtension(theme));
     if (settings.vim && !settings.emacs) extensions.push(vim());
     if (settings.emacs && !settings.vim) extensions.push(emacs());
     extensions.push(keymap.of(defaultKeymap));
