@@ -5,7 +5,7 @@ import {completeTheme, generateThemeCSS} from './themes';
 import type {Settings, SettingsKey, SettingsValue, Saver, Loader} from './settings';
 import {defaultSettings, localStorageSaver, localStorageLoader} from './settings';
 import {BaseInput, TextInput, NumberInput, CheckboxInput, CodeInput, TextSetting, NumberSetting, CheckboxSetting, CodeSetting, SettingsMenu, SimpleSettingsMenu} from './settings_gui';
-import {type Config, type DualConfig, Editor as _Editor, DualEditor as _DualEditor} from './simple_editor';
+import {type Config, type DualConfig, Editor as _Editor, DualEditor as _DualEditor} from './editor';
 import {Tab, TabSpace, TabBar, TabPanel, TopBar, TabView} from './tabs';
 import './style.css';
 

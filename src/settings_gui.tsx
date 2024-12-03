@@ -2,7 +2,7 @@
 import React, {type ReactNode, useState, createContext, useContext} from 'react'
 import {json} from '@codemirror/lang-json'
 import {type Settings, type SettingsKey, type Saver, defaultSettings} from './settings'
-import {Editor, Config} from './simple_editor'
+import {Editor, Config} from './editor'
 
 const SettingsContext: React.Context<[Settings, React.Dispatch<React.SetStateAction<Settings>>, React.Dispatch<React.SetStateAction<Settings>>]> = createContext<[Settings, React.Dispatch<React.SetStateAction<Settings>>, React.Dispatch<React.SetStateAction<Settings>>]>([defaultSettings, () => null, () => null]);
 
