@@ -38,7 +38,7 @@ const ShowChangesContext: React.Context<[boolean, React.Dispatch<React.SetStateA
 
 const ConfigContext: React.Context<[Config | DualConfig, React.Dispatch<React.SetStateAction<Config | DualConfig>>]> = createContext<[Config | DualConfig, React.Dispatch<React.SetStateAction<Config | DualConfig>>]>([{}, () => {}]);
 
-function TabbedEditor({children, config, ...props}: {config: Config | DualConfig, children: ReactNode}): ReactNode {
+function TabbedEditor({config, selected, children, ...props}: {config: Config | DualConfig, selected?: string, children: ReactNode}): ReactNode {
     const [showChanges, setShowChanges] = useState(false);
     const [stateConfig, setConfig] = useState(config);
     const theme = completeTheme(config.settings.theme);
@@ -46,7 +46,7 @@ function TabbedEditor({children, config, ...props}: {config: Config | DualConfig
         <_Wrapper config={config} {...props}>
             <ConfigContext.Provider value={[stateConfig, setConfig]}>
                 <ShowChangesContext.Provider value={[showChanges, setShowChanges]}>
-                    <TabView>{children}</TabView>
+                    <TabView selected={selected}>{children}</TabView>
                 </ShowChangesContext.Provider>
             </ConfigContext.Provider>
         </_Wrapper>
@@ -64,7 +64,7 @@ function EditorPanel({name, ...props}: {name: string}): ReactNode {
 function DualEditorPanel({name, ...props}: {name: string}): ReactNode {
     return (
         <TabPanel name={name} {...props}>
-            <_DualEditor config={useContext(ConfigContext)[0]} />
+            <_DualEditor config={{...useContext(ConfigContext)[0], showChanges: useContext(ShowChangesContext)[0]}} />
         </TabPanel>
     );
 }

@@ -59,7 +59,7 @@ root.render(
             value: testText,
             lang: html(),
             settings: localStorageLoader('editor-settings')(),
-        }} >
+        }} selected='index.html'>
             <TopBar>
                 <button onClick={localStorageSaver('editor-settings')}>Save</button>
                 <ShowChangesButton shownText='Hide changes' hiddenText='Show changes' />

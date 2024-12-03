@@ -17,7 +17,7 @@
 .editor-wrapper .top-bar {
     width: 100%;
     min-height: 0;
-    max-height: 100%;
+    max-height: 60px;
     height: 0;
     padding: 10px;
     border-bottom: none!important;
@@ -70,7 +70,6 @@
 .editor-wrapper .tab-panel {
     flex-grow: 1;
     overflow-y: auto;
-    height: 0;
 }
 
 .editor-wrapper :is(.editor, .settings-wrapper) {
