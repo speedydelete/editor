@@ -2,7 +2,7 @@
 import React, {type ReactNode, useState, createContext, useContext} from 'react'
 import {json} from '@codemirror/lang-json'
 import {type Settings, type SettingsKey, type Saver, defaultSettings} from './settings'
-import {SimpleCodeEditor, SimpleConfig} from './simple_editor'
+import {Editor, Config} from './simple_editor'
 
 const SettingsContext: React.Context<[Settings, React.Dispatch<React.SetStateAction<Settings>>, React.Dispatch<React.SetStateAction<Settings>>]> = createContext<[Settings, React.Dispatch<React.SetStateAction<Settings>>, React.Dispatch<React.SetStateAction<Settings>>]>([defaultSettings, () => null, () => null]);
 
@@ -45,7 +45,7 @@ function CheckboxInput({setting, ...props}: {setting: SettingsKey}): ReactNode {
 }
 
 function CodeInput({setting, config, height, width, json, enforceJsonObject, ...props}:
-    {setting: SettingsKey, config: SimpleConfig, height?: string, width?: string, json?: boolean, enforceJsonObject?: boolean}): ReactNode {
+    {setting: SettingsKey, config: Config, height?: string, width?: string, json?: boolean, enforceJsonObject?: boolean}): ReactNode {
     const [settingsObj, setSettingsObj, saver] = useContext(SettingsContext);
     const initValue = json ? JSON.stringify(settingsObj[setting], null, '  ') : settingsObj[setting];
     const [invalid, setInvalid] = useState('');
@@ -74,7 +74,7 @@ function CodeInput({setting, config, height, width, json, enforceJsonObject, ...
     return (
         <div className='setting-input' {...props}>
             <div style={{maxHeight: height, minHeight: 0, width: width}}>
-                <SimpleCodeEditor config={{onChange: handleChange, value: initValue, ...config}} style={{overflowY: 'scroll', maxHeight: height, minHeight: 0, width: width}} />
+                <Editor config={{onChange: handleChange, value: initValue, ...config}} style={{overflowY: 'scroll', maxHeight: height, minHeight: 0, width: width}} />
             </div>
             <br />
             {(invalid !== '') && 
@@ -133,7 +133,7 @@ function CheckboxSetting({name, desc, setting, ...props}: {name: string, desc: s
 }
 
 function CodeSetting({name, desc, setting, config, height, width, json, enforceJsonObject, ...props}:
-    {name: string, desc: string, setting: SettingsKey, config: SimpleConfig, height?: string, width?: string, json?: boolean, enforceJsonObject?: boolean}): ReactNode {
+    {name: string, desc: string, setting: SettingsKey, config: Config, height?: string, width?: string, json?: boolean, enforceJsonObject?: boolean}): ReactNode {
     return (
         <Setting name={name} desc={desc} {...props}>
             <CodeInput setting={setting} config={config} height={height} width={width} json={json} enforceJsonObject={enforceJsonObject} />
@@ -142,7 +142,7 @@ function CodeSetting({name, desc, setting, config, height, width, json, enforceJ
 }
 
 function SettingsMenu({settings, saver, title, children, ...props}: 
-    {settings: Settings, saver?: Saver, title?: string, children: ReactNode[]}): ReactNode {
+    {settings: Settings, saver?: Saver, title?: string, children: ReactNode}): ReactNode {
     const [settingsObj, setSettingsObj] = useState(settings);
     return (
         <div className='settings-wrapper' {...props}>
@@ -160,7 +160,7 @@ function SettingsMenu({settings, saver, title, children, ...props}:
     );
 }
 
-function DefaultSettingsMenu({settings, saver, ...props}: {settings: Settings, saver?: Saver}): ReactNode {
+function SimpleSettingsMenu({settings, saver, ...props}: {settings: Settings, saver?: Saver}): ReactNode {
     return (
         <SettingsMenu settings={settings} saver={saver} {...props}>
             <NumberSetting 
@@ -308,5 +308,5 @@ export {
     CheckboxSetting,
     CodeSetting,
     SettingsMenu,
-    DefaultSettingsMenu,
+    SimpleSettingsMenu,
 }

@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, {type ReactNode} from 'react'
 import CodeMirror from '@uiw/react-codemirror'
 import {EditorView} from 'codemirror'
 import {EditorState, type Extension} from '@codemirror/state'
@@ -97,7 +97,7 @@ function getExtensions(settings: Settings, readOnly?: boolean, lang?: Extension)
     return extensions;
 }
 
-interface SimpleConfig {
+interface Config {
     settings?: Settings,
     value?: string,
     readOnly?: boolean,
@@ -105,12 +105,12 @@ interface SimpleConfig {
     onChange?: (value: string, viewUpdate: ViewUpdate) => void,
 }
 
-interface SimpleDualConfig extends SimpleConfig {
+interface DualConfig extends Config {
     oldValue?: string,
     showChanges?: boolean,
 }
 
-function SimpleCodeEditor({config, ...props}: {config: SimpleConfig}) {
+function Editor({config, ...props}: {config: Config}): ReactNode {
     let {settings, value, readOnly, lang, onChange} = config;
     if (settings === undefined) settings = defaultSettings;
     value = value === undefined ? '' : convertTabSize(value, 2, settings.tabSize);
@@ -121,7 +121,7 @@ function SimpleCodeEditor({config, ...props}: {config: SimpleConfig}) {
     );
 }
 
-function SimpleDualCodeEditor({config, ...props}: {config: SimpleDualConfig}) {
+function DualEditor({config, ...props}: {config: DualConfig}): ReactNode {
     let {settings, value, oldValue, showChanges, readOnly, lang, onChange} = config;
     if (settings === undefined) settings = defaultSettings;
     if (showChanges === undefined) showChanges = true;
@@ -143,8 +143,8 @@ function SimpleDualCodeEditor({config, ...props}: {config: SimpleDualConfig}) {
 }
 
 export {
-    SimpleConfig,
-    SimpleDualConfig,
-    SimpleCodeEditor,
-    SimpleDualCodeEditor,
+    Config,
+    DualConfig,
+    Editor,
+    DualEditor,
 }

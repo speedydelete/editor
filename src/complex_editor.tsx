@@ -5,7 +5,6 @@ import {completeTheme, generateThemeCSS} from './themes'
 import {type Settings, defaultSettings} from './settings'
 import {SettingsMenu} from './settings_gui'
 import {type SimpleConfig, SimpleDualCodeEditor} from './simple_editor'
-import './style.css'
 
 interface ComplexConfig extends SimpleConfig {
     oldValue?: string,

@@ -80,7 +80,11 @@ function localStorageSaver(key: string): Saver {
 
 function localStorageLoader(key: string): Loader {
     return (): Settings => {
-        return JSON.parse(localStorage.getItem(key));
+        if (key in localStorage) {
+            return JSON.parse(localStorage.getItem(key));
+        } else {
+            return defaultSettings;
+        }
     }
 }
 
@@ -89,6 +93,7 @@ export {
     SettingsKey,
     SettingsValue,
     Saver,
+    Loader,
     defaultSettings,
     convertTabSize,
     localStorageSaver,

@@ -1,9 +1,9 @@
 
-import React, {useState, useContext, createContext} from 'react';
+import React, {type ReactNode, useState, useEffect, useContext, createContext} from 'react';
 
 const TabContext: React.Context<[string, React.Dispatch<React.SetStateAction<string>>]> = createContext<[string, React.Dispatch<React.SetStateAction<string>>]>(['', () => {}]);
 
-function Tab({name, displayName}: {name: string, displayName?: string}) {
+function Tab({name, displayName}: {name: string, displayName?: string}): ReactNode {
     const [selectedTab, setSelectedTab] = useContext(TabContext);
     return (
         <div
@@ -18,19 +18,19 @@ function Tab({name, displayName}: {name: string, displayName?: string}) {
     );
 }
 
-function TabSpace() {
+function TabSpace(): ReactNode {
     return (
-        <div className='tab tab-space' style={{flexGrow: 1}}></div>
+        <div className='tab tab-space'></div>
     );
 }
 
-function TabBar({children}: {children: React.ReactNode}) {
+function TabBar({children}: {children: ReactNode}): ReactNode {
     return (
         <div className='tab-bar'>{children}</div>
     );
 }
 
-function TabPanel({children, name}: {children: React.ReactNode, name: string}) {
+function TabPanel({children, name}: {children: ReactNode, name: string}): ReactNode {
     const [selectedTab, setSelectedTab] = useContext(TabContext);
     return (
         <>
@@ -43,9 +43,15 @@ function TabPanel({children, name}: {children: React.ReactNode, name: string}) {
     );
 }
 
-function TabView({children, selected}: {children: React.ReactNode, selected?: string}) {
+function TopBar({children}: {children: ReactNode}): ReactNode {
+    return (
+        <div className='top-bar'>{children}</div>
+    );
+}
+
+function TabView({children, selected}: {children: ReactNode, selected?: string}): ReactNode {
     const [selectedTab, setSelectedTab] = useState(selected === undefined ? '' : selected);
-    React.useEffect(() => {
+    useEffect(() => {
         if (selected && selected !== selectedTab) {
             setSelectedTab(selected);
         }
@@ -64,5 +70,6 @@ export {
     TabSpace,
     TabBar,
     TabPanel,
+    TopBar,
     TabView,
 }

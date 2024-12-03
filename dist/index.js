@@ -1,7 +1,18 @@
 
 import React, {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
-import {ComplexCodeEditor, localStorageLoader} from '../src'
+import {
+    TabbedEditor,
+    TopBar,
+    ShowChangesButton,
+    Tab,
+    TabBar,
+    TabSpace,
+    DualEditorPanel,
+    SimpleSettingsPanel,
+    localStorageSaver,
+    localStorageLoader,
+} from '../src'
 import {html} from '@codemirror/lang-html'
 
 const testText = `<!DOCTYPE html>
@@ -44,19 +55,26 @@ const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 root.render(
     <StrictMode>
-        <style>{`
-            body, #root {
-                position: absolute;
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 0;
-            }
-        `}</style>
-        <ComplexCodeEditor config={{
+        <TabbedEditor config={{
             value: testText,
             lang: html(),
-            settings: localStorageLoader()
-		}} />
+            settings: localStorageLoader('editor-settings')(),
+        }} >
+            <TopBar>
+                <button onClick={localStorageSaver('editor-settings')}>Save</button>
+                <ShowChangesButton shownText='Hide changes' hiddenText='Show changes' />
+            </TopBar>
+            <TabBar>
+                <Tab name='index.html' />
+                <TabSpace />
+                <Tab name='settings' displayName='Settings' />
+            </TabBar>
+            <DualEditorPanel name='index.html' config={{
+                value: testText,
+                lang: html(),
+                settings: localStorageLoader('editor-settings')(),
+            }} />
+            <SimpleSettingsPanel right={true} />
+        </TabbedEditor>
     </StrictMode>
 );
