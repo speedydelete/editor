@@ -17,6 +17,7 @@ interface SubTheme {
     borderBottom?: string,
     borderLeft?: string,
     borderRight?: string,
+    css?: string,
 }
 
 interface SubThemeActive extends SubTheme {
@@ -32,16 +33,17 @@ interface Theme extends SubTheme {
     selectionMatch?: SubTheme,
     foldText?: string,
     fold?: SubTheme,
+    search?: SubTheme,
     topBar?: SubTheme,
     tab?: SubThemeActive,
     tokenColors?: {[key: string]: object | string},
     bracketColors?: string[],
     settings?: SubTheme,
     button?: SubThemeActive,
-    css?: string,
     numberInput?: SubThemeActive,
     textInput?: SubThemeActive,
     checkboxInput?: SubThemeActive,
+    globalCss?: string,
 }
 
 interface CompleteSubTheme {
@@ -54,6 +56,7 @@ interface CompleteSubTheme {
     borderBottom: string,
     borderLeft: string,
     borderRight: string,
+    css: string,
 }
 
 interface CompleteSubThemeActive extends CompleteSubTheme {
@@ -69,6 +72,7 @@ interface CompleteTheme extends CompleteSubTheme {
     selectionMatch: CompleteSubTheme,
     foldText: string,
     fold: CompleteSubTheme,
+    search: CompleteSubTheme,
     topBar: CompleteSubTheme,
     tab: CompleteSubThemeActive,
     tokenColors: {[key: string]: object | string},
@@ -78,7 +82,7 @@ interface CompleteTheme extends CompleteSubTheme {
     numberInput: CompleteSubThemeActive,
     textInput: CompleteSubThemeActive,
     checkboxInput: CompleteSubThemeActive,
-    css: string,
+    globalCss: string,
 }
 
 const tagDeconstructor = 'const {' + Object.keys(tags).filter(tag => tag != 'function' && tag != 'null').join(',') + '} = this;';
@@ -117,6 +121,7 @@ function completeSubTheme(theme: SubTheme | undefined, parentTheme: SubTheme, ba
         borderBottom: getBorder(theme?.borderBottom, border),
         borderLeft: getBorder(theme?.borderLeft, border),
         borderRight: getBorder(theme?.borderRight, border),
+        css: ifUndefined(theme?.css, ifUndefined(parentTheme.css, baseTheme.css)),
     }
 }
 
@@ -141,6 +146,7 @@ function completeTheme(theme: Theme): CompleteTheme {
         selectionMatch: completeSubTheme(theme.selectionMatch, theme, baseTheme.selectionMatch),
         foldText: ifUndefined(theme.foldText, baseTheme.foldText),
         fold: completeSubTheme(theme.fold, theme, baseTheme.fold),
+        search: completeSubTheme(theme.editor, theme, baseTheme.search),
         topBar: completeSubTheme(theme.topBar, theme, baseTheme.topBar),
         tab: completeSubThemeActive(theme.tab, theme, baseTheme.tab),
         tokenColors: theme.tokenColors === undefined ? baseTheme.tokenColors : {...baseTheme.tokenColors, ...theme.tokenColors},
@@ -150,7 +156,7 @@ function completeTheme(theme: Theme): CompleteTheme {
         textInput: completeSubThemeActive(theme.textInput, theme, baseTheme.textInput),
         numberInput: completeSubThemeActive(theme.numberInput, theme, baseTheme.numberInput),
         checkboxInput: completeSubThemeActive(theme.checkboxInput, theme, baseTheme.checkboxInput),
-        css: ifUndefined(theme.css, baseTheme.css),
+        globalCss: ifUndefined(theme.globalCss, baseTheme.globalCss),
     }
 }
 
@@ -190,6 +196,7 @@ function generateSubThemeCSS(selector: string, theme: CompleteSubTheme): string 
             border-bottom: ${theme.borderBottom};
             border-left: ${theme.borderLeft};
             border-right: ${theme.borderRight};
+            ${theme.css};
         }
     `;
 }
@@ -203,6 +210,7 @@ function generateThemeCSS(theme: CompleteTheme): string {
         ${generateSubThemeCSS('$.cm-focused .cm-selectionBackground, ::selection', theme.selection)}
         ${generateSubThemeCSS('$ .cm-selectionMatch', theme.selectionMatch)}
         ${generateSubThemeCSS('$ .cm-foldPlaceholder', theme.fold)}
+        ${generateSubThemeCSS('$.cm-search', theme.search)}
         ${generateSubThemeCSS('.top-bar', theme.topBar)}
         ${generateSubThemeCSS('.tab-bar, .tab', theme.tab)}
         ${generateSubThemeCSS('.active-tab', theme.tab.active)}
@@ -213,7 +221,7 @@ function generateThemeCSS(theme: CompleteTheme): string {
         ${generateSubThemeCSS('input[type=number]', theme.numberInput)}
         ${generateSubThemeCSS('input[type=checkbox]', theme.checkboxInput)}
         ${generateSubThemeCSS('input[type=checkbox]:checked', theme.checkboxInput.active)}
-        ${theme.css}
+        ${theme.globalCss}
     `;
 }
 

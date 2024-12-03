@@ -88,6 +88,10 @@
     background-size: 100%!important;
 }
 
+.editor-wrapper .cm-search {
+    min-width: 0;
+}
+
 .editor-wrapper .settings-wrapper {
     padding: 10px;
 }
