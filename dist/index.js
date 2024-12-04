@@ -54,6 +54,8 @@ window.addEventListener('load', function() {
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 const settings = localStorageLoader('editor-settings')();
+import {defaultSettings} from '../src';
+console.log(localStorageSaver('test')(defaultSettings));
 root.render(
     <StrictMode>
         <TabbedEditor config={{
@@ -62,7 +64,7 @@ root.render(
             settings: localStorageLoader('editor-settings')(),
         }} selected='index.html'>
             <TopBar>
-                <button onClick={localStorageSaver('editor-settings')}>Save</button>
+                <button>Save</button>
                 <ShowChangesButton shownText='Hide changes' hiddenText='Show changes' />
             </TopBar>
             <TabBar>
@@ -75,7 +77,7 @@ root.render(
                 lang: html(),
                 settings: settings,
             }} />
-            <SimpleSettingsPanel name='settings' settings={settings} />
+            <SimpleSettingsPanel name='settings' settings={settings} saver={localStorageSaver('editor-settings')} />
         </TabbedEditor>
     </StrictMode>
 );

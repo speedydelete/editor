@@ -76,6 +76,7 @@ function getExtensions(settings: Settings, readOnly?: boolean, lang?: Extension)
     extensions.push(keymap.of(defaultKeymap));
     if (lang !== undefined) extensions.push(lang);
     if (settings.syntaxHighlighting) extensions.push(javascript());
+    if (settings.lineWrapping) extensions.push(EditorView.lineWrapping);
     if (settings.highlightSpecialChars) extensions.push(highlightSpecialChars());
     if (settings.drawSelection) extensions.push(drawSelection());
     if (settings.multipleSelections) extensions.push(EditorState.allowMultipleSelections.of(true));

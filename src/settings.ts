@@ -9,6 +9,7 @@ interface Settings {
     emacs: boolean,
     syntaxHighlighting: boolean,
     collapseUnchanged: boolean,
+    lineWrapping: boolean,
     highlightSpecialChars: boolean,
     drawSelection: boolean,
     multipleSelections: boolean,
@@ -40,6 +41,7 @@ const defaultSettings: Settings = {
     emacs: false,
     syntaxHighlighting: true,
     collapseUnchanged: true,
+    lineWrapping: true,
     highlightSpecialChars: true,
     drawSelection: true,
     multipleSelections: true,
@@ -69,16 +71,16 @@ function convertTabSize(value: string, oldSize: number, newSize: number): string
     ).join('\n');
 }
 
-type Saver = (settings: Settings) => void;
-type Loader = () => Settings;
+type SettingsSaver = (data: Settings) => void;
+type SettingsLoader = () => Settings;
 
-function localStorageSaver(key: string): Saver {
+function localStorageSaver(key: string): SettingsSaver {
     return (settings: Settings): void => {
         localStorage.setItem(key, JSON.stringify(settings));
     }
 }
 
-function localStorageLoader(key: string): Loader {
+function localStorageLoader(key: string): SettingsLoader {
     return (): Settings => {
         if (key in localStorage) {
             return JSON.parse(localStorage.getItem(key));
@@ -92,8 +94,8 @@ export {
     Settings,
     SettingsKey,
     SettingsValue,
-    Saver,
-    Loader,
+    SettingsSaver,
+    SettingsLoader,
     defaultSettings,
     convertTabSize,
     localStorageSaver,

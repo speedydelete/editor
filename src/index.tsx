@@ -2,7 +2,7 @@
 import React, {type ReactNode, useState, createContext, useContext} from 'react';
 import type {Theme, CompleteTheme} from './themes';
 import {completeTheme, generateThemeCSS} from './themes';
-import type {Settings, SettingsKey, SettingsValue, Saver, Loader} from './settings';
+import type {Settings, SettingsKey, SettingsValue, SettingsSaver, SettingsLoader} from './settings';
 import {defaultSettings, localStorageSaver, localStorageLoader} from './settings';
 import {BaseInput, TextInput, NumberInput, CheckboxInput, CodeInput, TextSetting, NumberSetting, CheckboxSetting, CodeSetting, SettingsMenu, SimpleSettingsMenu} from './settings_gui';
 import {type Config, type DualConfig, Editor as _Editor, DualEditor as _DualEditor} from './editor';
@@ -69,7 +69,7 @@ function DualEditorPanel({name, ...props}: {name: string}): ReactNode {
     );
 }
 
-function SettingsPanel({name, settings, saver, children, ...props}: {name: string, settings: Settings, children: ReactNode, saver: Saver}): ReactNode {
+function SettingsPanel({name, settings, saver, children, ...props}: {name: string, settings: Settings, children: ReactNode, saver: SettingsSaver}): ReactNode {
     return (
         <TabPanel name={name} {...props}>
             <SettingsMenu settings={settings} saver={saver}>{children}</SettingsMenu>
@@ -77,7 +77,7 @@ function SettingsPanel({name, settings, saver, children, ...props}: {name: strin
     );
 }
 
-function SimpleSettingsPanel({name, settings, saver, ...props}: {name: string, settings: Settings, saver: Saver}): ReactNode {
+function SimpleSettingsPanel({name, settings, saver, ...props}: {name: string, settings: Settings, saver: SettingsSaver}): ReactNode {
     return (
         <TabPanel name={name} {...props}>
             <SimpleSettingsMenu settings={settings} saver={saver} />
@@ -107,8 +107,8 @@ export {
     Settings,
     SettingsKey,
     SettingsValue,
-    Saver,
-    Loader,
+    SettingsSaver,
+    SettingsLoader,
     defaultSettings,
     localStorageSaver,
     localStorageLoader,

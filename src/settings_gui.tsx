@@ -1,7 +1,7 @@
 
-import React, {type ReactNode, useState, createContext, useContext} from 'react'
+import React, {type ReactNode, useState, useEffect, createContext, useContext} from 'react'
 import {json} from '@codemirror/lang-json'
-import {type Settings, type SettingsKey, type Saver, defaultSettings} from './settings'
+import {type Settings, type SettingsKey, type SettingsValue, type SettingsSaver, defaultSettings} from './settings'
 import {Editor, Config} from './editor'
 
 const SettingsContext: React.Context<[Settings, React.Dispatch<React.SetStateAction<Settings>>, React.Dispatch<React.SetStateAction<Settings>>]> = createContext<[Settings, React.Dispatch<React.SetStateAction<Settings>>, React.Dispatch<React.SetStateAction<Settings>>]>([defaultSettings, () => null, () => null]);
@@ -11,8 +11,14 @@ function BaseInput({type, setting, ...props}: {type: string, setting: SettingsKe
     const [value, setValue] = useState(settingsObj[setting]);
     function handleChange(event: React.FormEvent<HTMLInputElement>) {
         const target = event.currentTarget;
-        setValue(target.type == 'checkbox' ? target.checked : (target.type == 'number' ? target.valueAsNumber : target.value));
-        setSettingsObj({...settingsObj, [setting]: event.currentTarget.value});
+        let newValue: SettingsValue = target.type == 'checkbox' ? target.checked : target.value;
+        if (target.type == 'number') {
+            newValue = parseFloat(newValue);
+            if (isNaN(newValue)) return;
+        }
+        setValue(newValue);
+        settingsObj[setting] = newValue;
+        setSettingsObj(settingsObj);
         saver(settingsObj);
     }
     return (
@@ -142,7 +148,7 @@ function CodeSetting({name, desc, setting, config, height, width, json, enforceJ
 }
 
 function SettingsMenu({settings, saver, title, children, ...props}: 
-    {settings: Settings, saver?: Saver, title?: string, children: ReactNode}): ReactNode {
+    {settings: Settings, saver: SettingsSaver, title?: string, children: ReactNode}): ReactNode {
     const [settingsObj, setSettingsObj] = useState(settings);
     return (
         <div className='settings-wrapper' {...props}>
@@ -160,7 +166,7 @@ function SettingsMenu({settings, saver, title, children, ...props}:
     );
 }
 
-function SimpleSettingsMenu({settings, saver, ...props}: {settings: Settings, saver?: Saver}): ReactNode {
+function SimpleSettingsMenu({settings, saver, ...props}: {settings: Settings, saver: SettingsSaver}): ReactNode {
     return (
         <SettingsMenu settings={settings} saver={saver} {...props} title='Settings'>
             <NumberSetting 
@@ -187,6 +193,11 @@ function SimpleSettingsMenu({settings, saver, ...props}: {settings: Settings, sa
                 name='Collapse Unchanged'
                 desc='Whether to collapse unchanged lines when changes are shown'
                 setting='collapseUnchanged'
+            />
+            <CheckboxSetting
+                name='Line Wrapping'
+                desc='Whether to enable line wrapping'
+                setting='lineWrapping'
             />
             <CheckboxSetting
                 name='Highlight Special Characters'
