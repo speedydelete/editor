@@ -14,7 +14,8 @@
         "color": "#cccccc",
         "border": "none",
         "editor": {
-            "border": "#2b2b2b"
+            "border": "#2b2b2b",
+            "caretColor": "#c6c6c6"
         },
         "lineNumber": {
             "color": "#6e7681",

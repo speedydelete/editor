@@ -69,8 +69,8 @@ function getExtensions(settings: Settings, readOnly?: boolean, lang?: Extension)
         EditorState.tabSize.of(settings.tabSize),
         indentUnit.of(' '.repeat(settings.tabSize)),
         (readOnly ? [EditorView.editable.of(false), EditorState.readOnly.of(true)] : []),
+        createThemeExtension(theme, settings.syntaxHighlighting)
     ];
-    if (settings.syntaxHighlighting) extensions.push(createThemeExtension(theme));
     if (settings.vim && !settings.emacs) extensions.push(vim());
     if (settings.emacs && !settings.vim) extensions.push(emacs());
     extensions.push(keymap.of(defaultKeymap));

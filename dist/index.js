@@ -55,7 +55,7 @@ const rootElement = document.getElementById("root");
 const root = createRoot(rootElement);
 const settings = localStorageLoader('editor-settings')();
 import {defaultSettings} from '../src';
-console.log(localStorageSaver('test')(defaultSettings));
+localStorageSaver('editor-settings')(defaultSettings);
 root.render(
     <StrictMode>
         <TabbedEditor config={{

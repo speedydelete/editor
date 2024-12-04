@@ -12,11 +12,11 @@ function BaseInput({type, setting, ...props}: {type: string, setting: SettingsKe
     function handleChange(event: React.FormEvent<HTMLInputElement>) {
         const target = event.currentTarget;
         let newValue: SettingsValue = target.type == 'checkbox' ? target.checked : target.value;
+        setValue(newValue);
         if (target.type == 'number') {
-            newValue = parseFloat(newValue);
+            newValue = parseFloat(String(newValue));
             if (isNaN(newValue)) return;
         }
-        setValue(newValue);
         settingsObj[setting] = newValue;
         setSettingsObj(settingsObj);
         saver(settingsObj);
