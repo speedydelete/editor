@@ -70,13 +70,6 @@
 
 .editor-wrapper .tab-panel {
     flex-grow: 1;
-    width: 100%;
-    height: 100%;
-}
-
-.editor-wrapper .tab-panel > div {
-    width: 100%;
-    height: 100%;
 }
 
 .editor-wrapper .cm-activeLine {
@@ -94,6 +87,8 @@
 .editor-wrapper .settings-wrapper {
     padding: 10px;
     overflow-y: scroll;
+    width: 100%;
+    height: 100%;
 }
 
 .editor-wrapper .settings-title, .setting-name {
