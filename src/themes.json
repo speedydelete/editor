@@ -1,55 +1,12 @@
 {
-    "baseDark": {},
-    "baseLight": {},
     "default": "defaultDark",
     "defaultDark": "vscode",
-    "defaultLight": "baseLight",
+    "defaultLight": "vscodeLight",
     "vscode": {
         "name": "Visual Studio Code",
         "dark": true,
-        "fontFamily": "Consolas, \"Courier New\", Courier, monospace",
-        "fontSize": "14px",
-        "caretColor": "#c6c6c6",
-        "background": "#1f1f1f",
-        "color": "#cccccc",
-        "border": "none",
-        "editor": {
-            "border": "#2b2b2b",
-            "caretColor": "#c6c6c6"
-        },
-        "lineNumber": {
-            "color": "#6e7681",
-            "active": {
-                "color": "#cccccc"
-            }
-        },
-        "selection": {
-            "background": "#add6ff26"
-        },
-        "selectionMatch": {
-            "background": "#3a3d41"
-        },
-        "foldText": "...",
-        "fold": {
-            "color": "#808080"
-        },
-        "topBar": {
-            "fontFamily": "Arial, Helvetica, sans-serif",
-            "background": "#181818"
-        },
-        "tab": {
-            "fontFamily": "Arial, Helvetica, sans-serif",
-            "background": "#181818",
-            "color": "#9d9d9d",
-            "border": "#2b2b2b",
-            "active": {
-                "background": "#1f1f1f",
-                "color": "#ffffff",
-                "border": "#1f1f1f",
-                "borderTop": "#0078d4"
-            }
-        },
-        "tokenColors": {
+        "fold-text": "...",
+        "token-colors": {
             "heading": {
                 "fontWeight": "bold"
             },
@@ -97,44 +54,122 @@
             "deleted": "#ce9178",
             "changed": "#569cd6"
         },
-        "bracketColors": [
+        "bracket-colors": [
             "#d7ba7d",
             "#b267e6",
             "#569cd6"
         ],
-        "settings": {
-            "fontFamily": "Arial, Helvetica, sans-serif"
-        },
-        "button": {
-            "background": "#0078d4",
-            "color": "#ffffff",
-            "border": "#ffffff12",
-            "fontFamily": "inherit",
-            "active": {
+        "css": {
+            "": {
+                "font-family": "Consolas, 'Courier New', Courier, monospace",
+                "font-size": "14px",
+                "caret-color": "#c6c6c6",
+                "background": "#1f1f1f",
+                "color": "#cccccc",
+                "border": "none"
+            },
+            "*": {
+                "background": "#1f1f1f"
+            },
+            "a, a:visited": {
+                "text-decoration": "none",
+                "color": "#0078d4"
+            },
+            "$button$": {
+                "font-family": "inherit",
+                "font-size": "14px",
+                "background": "#0078d4",
+                "color": "#ffffff",
+                "border": "1px solid #ffffff12"
+            },
+            "$button$hover": {
                 "background": "#026ec1"
-            }
-        },
-        "numberInput": {
-            "background": "#313131",
-            "color": "#cccccc",
-            "border": "#3c3c3c",
-            "fontFamily": "inherit"
-        },
-        "textInput": {
-            "background": "#313131",
-            "color": "#cccccc",
-            "border": "#3c3c3c",
-            "fontFamily": "inherit"
-        },
-        "checkboxInput": {
-            "background": "#313131",
-            "border": "#3c3c3c",
-            "color": "#cccccc",
-            "active": {
+            },
+            "$input$": {
+                "font-size": "14px"
+            },
+            "$input$:not([type]), $input$[type=text]": {
+                "background": "#313131",
+                "color": "#cccccc",
+                "border": "1px solid #3c3c3c",
+                "font-family": "inherit"
+            },
+            "$input$[type=checkbox]": {
+                "background": "#313131",
+                "border": "1px solid #3c3c3c",
+                "color": "#cccccc"
+            },
+            "$input$[type=checkbox]:checked": {
                 "background": "#202020",
-                "border": "#cccccc"
+                "border": "1px solid #cccccc"
+            },
+            "$input$[type=number]": {
+                "background": "#313131",
+                "color": "#cccccc",
+                "border": "1px solid #3c3c3c",
+                "font-family": "inherit"
+            },
+            ".top-bar": {
+                "font-family": "Arial, Helvetica, sans-serif",
+                "background": "#181818"
+            },
+            ".tab": {
+                "font-family": "Arial, Helvetica, sans-serif",
+                "font-size": "14px",
+                "background": "#181818",
+                "color": "#9d9d9d",
+                "border": "1px solid #2b2b2b"
+            },
+            ".active-tab": {
+                "background": "#1f1f1f",
+                "color": "#ffffff",
+                "border-top": "1px solid #0078d4"
+            },
+            ".settings": {
+                "font-family": "Arial, Helvetica, sans-serif"
+            },
+            "$editor$": {
+                "border": "1px solid #2b2b2b"
+            },
+            "$line-number$": {
+                "color": "#6e7681"
+            },
+            "$current-line-number$": {
+                "color": "#cccccc"
+            },
+            "$selection$": {
+                "background": "#add6ff26"
+            },
+            "$selection-match$": {
+                "background": "#3a3d41"
+            },
+            "$fold$": {
+                "color": "#808080"
+            },
+            "$search$": {
+                "font-family": "Arial, Helvetica, sans-serif",
+                "font-size": "14px",
+                "border-top": "1px solid #3c3c3c",
+                "border-right": "1px solid #3c3c3c"
+            },
+            "$search-button$[name=next]:after": {
+                "content": "Next"
+            },
+            "$search-button$[name=previous]:after": {
+                "content": "Previous"
+            },
+            "$search-button$[name=all]:after": {
+                "content": "All"
+            },
+            "$search-button$[name=replace]:after": {
+                "content": "Replace"
+            },
+            "$search-button$[name=replaceAll]:after": {
+                "content": "Replace All"
             }
-        },
-        "css": ".editor-wrapper :is(a, a:visited) { text-decoration: none; color: #0078d4; }"
+        }
+    },
+    "vscodeLight": {
+
     }
 }

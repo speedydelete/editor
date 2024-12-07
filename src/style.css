@@ -12,7 +12,7 @@
 }
 
 .editor-wrapper button {
-    padding: 5px;
+    padding: 3px 5px!important;
 }
 
 .editor-wrapper .top-bar {
@@ -80,11 +80,14 @@
     background-size: 100%!important;
 }
 
-.editor-wrapper .cm-search {
-    min-width: 0;
+.editor-wrapper .cm-panels-bottom {
+    right: 50%;
+    width: 50%;
+    min-width: 300px;
+    max-width: 520px;
 }
 
-.editor-wrapper .settings-wrapper {
+.editor-wrapper .settings {
     padding: 10px;
     overflow-y: scroll;
     width: 100%;
@@ -100,7 +103,7 @@
     font-size: 24px;
 }
 
-.editor-wrapper .settings-wrapper div :has(> input[type=checkbox]) {
+.editor-wrapper .settings div :has(> input[type=checkbox]) {
     display: flex;
     flex-direction: row;
     align-items: center;

@@ -13,7 +13,7 @@ import {lintKeymap} from '@codemirror/lint'
 // import {html} from '@codemirror/lang-html'
 import {javascript} from '@codemirror/lang-javascript'
 import CodeMirrorMerge from 'react-codemirror-merge'
-import {type CompleteTheme, completeTheme, createThemeExtension} from './themes'
+import {type Theme, resolveTheme, createThemeExtension} from './themes'
 import {type Settings, convertTabSize, defaultSettings} from './settings'
 import {vim} from '@replit/codemirror-vim'
 import {emacs} from '@replit/codemirror-emacs'
@@ -63,7 +63,7 @@ function bracketPairColorization(colors: string[]): Extension[] {
 }
 
 function getExtensions(settings: Settings, readOnly?: boolean, lang?: Extension): Extension[] {
-    const theme: CompleteTheme = completeTheme(settings.theme);
+    const theme: Theme = resolveTheme(settings.theme);
     let extensions: Extension[] = [
         highlightActiveLine(),
         EditorState.tabSize.of(settings.tabSize),
@@ -90,8 +90,14 @@ function getExtensions(settings: Settings, readOnly?: boolean, lang?: Extension)
     if (settings.bracketMatching) extensions.push(bracketMatching());
     if (settings.closeBrackets) extensions.push([closeBrackets(), keymap.of(closeBracketsKeymap)]);
     if (settings.autocompletion) extensions.push([autocompletion(), keymap.of(completionKeymap)]);
-    if (settings.codeFolding) extensions.push([codeFolding({placeholderText: theme.foldText}), keymap.of(foldKeymap)]);
-    if (settings.bracketPairColorization && settings.syntaxHighlighting) extensions.push(bracketPairColorization(theme.bracketColors));
+    if (settings.codeFolding) {
+        let options = {};
+        if (theme['fold-text']) options = {placeholderText: theme['fold-text'].toString()};
+        extensions.push([codeFolding(options), keymap.of(foldKeymap)]);
+    }
+    if (settings.bracketPairColorization && settings.syntaxHighlighting && theme['bracket-colors']) {
+        extensions.push(bracketPairColorization(theme['bracket-colors']));
+    }
     if (settings.search) extensions.push(keymap.of(searchKeymap));
     if (settings.indentWithTab) extensions.push(keymap.of([indentWithTab]));
     if (settings.lint) extensions.push(keymap.of(lintKeymap));

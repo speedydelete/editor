@@ -4,94 +4,19 @@ import {Extension} from '@codemirror/state'
 import {syntaxHighlighting, HighlightStyle} from '@codemirror/language'
 import {tags as defaultTags, Tag} from '@lezer/highlight'
 
+interface Theme {
+    'name': string;
+    'dark': boolean;
+    'fold-text'?: string;
+    'token-colors'?: {[key: string]: string | object};
+    'bracket-colors'?: string[];
+    'css'?: {[key: string]: {[key: string]: string}};
+};
+
 const tags = {...defaultTags, function_: defaultTags.function, null_: defaultTags['null']};
-
-interface SubTheme {
-    fontFamily?: string,
-    fontSize?: string,
-    caretColor?: string,
-    background?: string,
-    color?: string,
-    border?: string,
-    borderTop?: string,
-    borderBottom?: string,
-    borderLeft?: string,
-    borderRight?: string,
-    css?: string,
-}
-
-interface SubThemeActive extends SubTheme {
-    active?: SubTheme
-}
-
-interface Theme extends SubTheme {
-    name?: string,
-    dark?: boolean,
-    editor?: SubTheme,
-    lineNumber?: SubThemeActive,
-    selection?: SubTheme,
-    selectionMatch?: SubTheme,
-    foldText?: string,
-    fold?: SubTheme,
-    search?: SubTheme,
-    topBar?: SubTheme,
-    tab?: SubThemeActive,
-    tokenColors?: {[key: string]: object | string},
-    bracketColors?: string[],
-    settings?: SubTheme,
-    button?: SubThemeActive,
-    numberInput?: SubThemeActive,
-    textInput?: SubThemeActive,
-    checkboxInput?: SubThemeActive,
-    globalCss?: string,
-}
-
-interface CompleteSubTheme {
-    fontFamily: string,
-    fontSize: string,
-    caretColor: string,
-    background: string,
-    color: string,
-    borderTop: string,
-    borderBottom: string,
-    borderLeft: string,
-    borderRight: string,
-    css: string,
-}
-
-interface CompleteSubThemeActive extends CompleteSubTheme {
-    active: CompleteSubTheme,
-}
-
-interface CompleteTheme extends CompleteSubTheme {
-    name: string,
-    dark: boolean,
-    editor: CompleteSubTheme,
-    lineNumber: CompleteSubThemeActive,
-    selection: CompleteSubTheme,
-    selectionMatch: CompleteSubTheme,
-    foldText: string,
-    fold: CompleteSubTheme,
-    search: CompleteSubTheme,
-    topBar: CompleteSubTheme,
-    tab: CompleteSubThemeActive,
-    tokenColors: {[key: string]: object | string},
-    bracketColors: string[],
-    settings: CompleteSubTheme,
-    button: CompleteSubThemeActive,
-    numberInput: CompleteSubThemeActive,
-    textInput: CompleteSubThemeActive,
-    checkboxInput: CompleteSubThemeActive,
-    globalCss: string,
-}
 
 const tagDeconstructor = 'const {' + Object.keys(tags).filter(tag => tag != 'function' && tag != 'null').join(',') + '} = this;';
 
-function ifUndefined(value: any, defaultValue: any): any {
-    return value === undefined ? defaultValue : value;
-}
-
-const baseThemes: {dark: CompleteTheme, light: CompleteTheme} = require('./base_themes.json')
 const themes: {[key: string]: Theme | string} = require('./themes.json');
 
 function resolveTheme(theme: Theme | string): Theme {
@@ -101,78 +26,21 @@ function resolveTheme(theme: Theme | string): Theme {
     return theme;
 }
 
-function getBorder(border: string | undefined, base: string | undefined): string {
-    border = ifUndefined(border, base);
-    if (border !== undefined && border !== 'none' && !border.includes(' ')) {
-        border = '1px solid ' + border;
-    }
-    return border;
-}
-
-function completeSubTheme(theme: SubTheme | undefined, parentTheme: SubTheme, baseTheme: CompleteSubTheme): CompleteSubTheme {
-    let border = ifUndefined(theme?.border, parentTheme.border);
-    return {
-        fontFamily: ifUndefined(theme?.fontFamily, ifUndefined(parentTheme.fontFamily, baseTheme.fontFamily)),
-        fontSize: ifUndefined(theme?.fontSize, ifUndefined(parentTheme.fontSize, baseTheme.fontSize)),
-        caretColor: ifUndefined(theme?.caretColor, ifUndefined(parentTheme.caretColor, baseTheme.caretColor)),
-        background: ifUndefined(theme?.background, ifUndefined(parentTheme.background, baseTheme.background)),
-        color: ifUndefined(theme?.color, ifUndefined(parentTheme.color, baseTheme.color)),
-        borderTop: getBorder(theme?.borderTop, border),
-        borderBottom: getBorder(theme?.borderBottom, border),
-        borderLeft: getBorder(theme?.borderLeft, border),
-        borderRight: getBorder(theme?.borderRight, border),
-        css: ifUndefined(theme?.css, ifUndefined(parentTheme.css, baseTheme.css)),
-    }
-}
-
-function completeSubThemeActive(theme: SubThemeActive | undefined, parentTheme: SubThemeActive, baseTheme: CompleteSubThemeActive): CompleteSubThemeActive {
-    const subTheme = completeSubTheme(theme, parentTheme, baseTheme);
-    return {
-        ...subTheme,
-        active: completeSubTheme(theme?.active, subTheme, baseTheme.active),
-    }
-}
-
-function completeTheme(theme: Theme): CompleteTheme {
-    theme = {name: '<no name provided>', dark: true, ...theme}
-    const baseTheme: CompleteTheme = theme.dark ? baseThemes.dark : baseThemes.light;
-    return {
-        name: theme.name,
-        dark: theme.dark,
-        ...completeSubTheme(theme, theme, baseTheme),
-        editor: completeSubTheme(theme.editor, theme, baseTheme.editor),
-        lineNumber: completeSubThemeActive(theme.lineNumber, theme, baseTheme.lineNumber),
-        selection: {...completeSubTheme(theme.selection, theme, baseTheme.selection), ...{color: 'unset'}},
-        selectionMatch: completeSubTheme(theme.selectionMatch, theme, baseTheme.selectionMatch),
-        foldText: ifUndefined(theme.foldText, baseTheme.foldText),
-        fold: completeSubTheme(theme.fold, theme, baseTheme.fold),
-        search: completeSubTheme(theme.editor, theme, baseTheme.search),
-        topBar: completeSubTheme(theme.topBar, theme, baseTheme.topBar),
-        tab: completeSubThemeActive(theme.tab, theme, baseTheme.tab),
-        tokenColors: theme.tokenColors === undefined ? baseTheme.tokenColors : {...baseTheme.tokenColors, ...theme.tokenColors},
-        bracketColors: ifUndefined(theme.bracketColors, baseTheme.bracketColors),
-        settings: completeSubTheme(theme.settings, theme, baseTheme.settings),
-        button: completeSubThemeActive(theme.button, theme, baseTheme.button),
-        textInput: completeSubThemeActive(theme.textInput, theme, baseTheme.textInput),
-        numberInput: completeSubThemeActive(theme.numberInput, theme, baseTheme.numberInput),
-        checkboxInput: completeSubThemeActive(theme.checkboxInput, theme, baseTheme.checkboxInput),
-        globalCss: ifUndefined(theme.globalCss, baseTheme.globalCss),
-    }
-}
-
-function createThemeExtension(theme: CompleteTheme, doSyntaxHighlighting: boolean = true): Extension {
+function createThemeExtension(theme: Theme, doSyntaxHighlighting: boolean = true): Extension {
     let tokenSettings: {tag: Tag | Tag[], [key: string]: any}[] = [];
-    for (const [key, value] of Object.entries(theme.tokenColors)) {
-        try {
-            let tag: Tag | Tag[] = Function(`'use strict';${tagDeconstructor};return ${key};`).bind(tags)();
-            if (tag == null) tag = tags.null;
-            if (typeof value == 'string') {
-                tokenSettings.push({ tag: tag, color: value });
-            } else {
-                tokenSettings.push({ tag: tag, ...value });
+    if (theme['token-colors']) {
+        for (const [key, value] of Object.entries(theme['token-colors'])) {
+            try {
+                let tag: Tag | Tag[] = Function(`'use strict';${tagDeconstructor};return ${key};`).bind(tags)();
+                if (tag == null) tag = tags.null;
+                if (typeof value == 'string') {
+                    tokenSettings.push({ tag: tag, color: value });
+                } else {
+                    tokenSettings.push({ tag: tag, ...value });
+                }
+            } catch (error) {
+                console.warn(`Invalid key in !token-colors:\nkey: \`${key}\`\ncode: \`'use strict';${tagDeconstructor}return ${key};\`\nerror: ${error}`);
             }
-        } catch (error) {
-            console.warn(`Invalid key in tokenColors:\nkey: \`${key}\`\ncode: \`'use strict';${tagDeconstructor}return ${key};\`\nerror: ${error}`);
         }
     }
     let out = [EditorView.theme({}, {dark: theme.dark})];
@@ -180,62 +48,36 @@ function createThemeExtension(theme: CompleteTheme, doSyntaxHighlighting: boolea
     return out;
 }
 
-function generateSubThemeCSS(selector: string, theme: CompleteSubTheme): string {
-    selector = selector.replace(/\$/g, '.editor .cm-editor');
-    if (selector.startsWith('%')) {
-        selector = selector.slice(1);
-    } else {
-        selector = '.editor-wrapper :is(' + selector + ')';
-    }
-    return `
-        ${selector} {
-            font-family: ${theme.fontFamily};
-            font-size: ${theme.fontSize};
-            caret-color: ${theme.caretColor};
-            background-color: ${theme.background};
-            color: ${theme.color};
-            border-top: ${theme.borderTop};
-            border-bottom: ${theme.borderBottom};
-            border-left: ${theme.borderLeft};
-            border-right: ${theme.borderRight};
-            ${theme.css};
+function generateThemeCSS(theme: Theme): string {
+    let out: string[] = [];
+    if (theme.css) {
+        for (let [selector, css] of Object.entries(theme.css)) {
+            selector = selector.replace('$button$', 'button, .editor .cm-button');
+            selector = selector.replace('$input$', 'input, .editor .cm-textfield');
+            selector = selector.replace('$editor$', '.editor > div > div');
+            selector = selector.replace('$line-number$', '.editor :is(.cm-gutters, .cm-gutter)');
+            selector = selector.replace('$current-line-number$', '.editor .cm-activeLineGutter');
+            selector = selector.replace('$selection$', '.editor .cm-focused .cm-selectionBackground, ::selection');
+            selector = selector.replace('$selection-match$', '.editor .cm-selectionMatch');
+            selector = selector.replace('$fold$', '.editor .cm-foldPlaceholder');
+            selector = selector.replace('$search$', '.editor .cm-panels:has(> .cm-search)');
+            if (selector.startsWith('&')) {
+                selector = selector.slice(1);
+            } else if (selector == '') {
+                selector = '.editor-wrapper, .editor-wrapper :is(.editor > div > div)';
+            } else {
+                selector = '.editor-wrapper :is(' + selector + ')';
+            }
+            out.push(selector + '{' + Object.entries(css).map(([x, y]) => x + ':' + y).join(';') + '}');
         }
-    `;
-}
-
-function generateThemeCSS(theme: CompleteTheme): string {
-    return `
-        ${generateSubThemeCSS('%.editor-wrapper, .editor-wrapper $.cm-content', theme)}
-        ${generateSubThemeCSS('$', theme.editor)}
-        ${generateSubThemeCSS('$ .cm-gutters, $ .cm-gutter', theme.lineNumber)}
-        ${generateSubThemeCSS('$ .cm-activeLineGutter', theme.lineNumber.active)}
-        ${generateSubThemeCSS('$.cm-focused .cm-selectionBackground, ::selection', theme.selection)}
-        ${generateSubThemeCSS('$ .cm-selectionMatch', theme.selectionMatch)}
-        ${generateSubThemeCSS('$ .cm-foldPlaceholder', theme.fold)}
-        ${generateSubThemeCSS('$.cm-search', theme.search)}
-        ${generateSubThemeCSS('.top-bar', theme.topBar)}
-        ${generateSubThemeCSS('.tab-bar, .tab', theme.tab)}
-        ${generateSubThemeCSS('.active-tab', theme.tab.active)}
-        ${generateSubThemeCSS('.settings-wrapper, .setting, tab-panel:has(> .settings-wrapper)', theme.settings)}
-        ${generateSubThemeCSS('button', theme.button)}
-        ${generateSubThemeCSS('button:hover', theme.button.active)}
-        ${generateSubThemeCSS(':is(input[type=text], input[type=password], input[type=email])', theme.textInput)}
-        ${generateSubThemeCSS('input[type=number]', theme.numberInput)}
-        ${generateSubThemeCSS('input[type=checkbox]', theme.checkboxInput)}
-        ${generateSubThemeCSS('input[type=checkbox]:checked', theme.checkboxInput.active)}
-        ${theme.globalCss}
-    `;
+    }
+    console.log(out);
+    return out.join('');
 }
 
 export {
-    SubTheme,
-    SubThemeActive,
     Theme,
-    CompleteSubTheme,
-    CompleteSubThemeActive,
-    CompleteTheme,
     resolveTheme,
-    completeTheme,
     createThemeExtension,
     generateThemeCSS,
 }

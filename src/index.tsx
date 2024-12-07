@@ -1,7 +1,6 @@
 
 import React, {type ReactNode, useState, createContext, useContext} from 'react';
-import type {Theme, CompleteTheme} from './themes';
-import {completeTheme, generateThemeCSS} from './themes';
+import {type Theme, resolveTheme, generateThemeCSS} from './themes';
 import type {Settings, SettingsKey, SettingsValue, SettingsSaver, SettingsLoader} from './settings';
 import {defaultSettings, localStorageSaver, localStorageLoader} from './settings';
 import {BaseInput, TextInput, NumberInput, CheckboxInput, CodeInput, TextSetting, NumberSetting, CheckboxSetting, CodeSetting, SettingsMenu, SimpleSettingsMenu} from './settings_gui';
@@ -12,7 +11,7 @@ import './style.css';
 function _Wrapper({config, children, ...props}: {config: Config | DualConfig, children: ReactNode}): ReactNode {
     return (
         <div className='editor-wrapper' {...props}>
-            <style>{generateThemeCSS(completeTheme(config.settings.theme))}</style>
+            <style>{generateThemeCSS(resolveTheme(config.settings.theme))}</style>
             {children}
         </div>
     );
@@ -41,7 +40,6 @@ const ConfigContext: React.Context<[Config | DualConfig, React.Dispatch<React.Se
 function TabbedEditor({config, selected, children, ...props}: {config: Config | DualConfig, selected?: string, children: ReactNode}): ReactNode {
     const [showChanges, setShowChanges] = useState(false);
     const [stateConfig, setConfig] = useState(config);
-    const theme = completeTheme(config.settings.theme);
     return (
         <_Wrapper config={config} {...props}>
             <ConfigContext.Provider value={[stateConfig, setConfig]}>
@@ -103,7 +101,6 @@ export {
     Config,
     DualConfig,
     Theme,
-    CompleteTheme,
     Settings,
     SettingsKey,
     SettingsValue,

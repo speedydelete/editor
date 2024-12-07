@@ -51,9 +51,9 @@ window.addEventListener('load', function() {
   </body>
 </html>`;
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
-const settings = localStorageLoader('editor-settings')();
+const settings = localStorageLoader('editor-settingsx')();
 import {defaultSettings} from '../src';
 localStorageSaver('editor-settings')(defaultSettings);
 root.render(
@@ -61,7 +61,7 @@ root.render(
         <TabbedEditor config={{
             value: testText,
             lang: html(),
-            settings: localStorageLoader('editor-settings')(),
+            settings: localStorageLoader('editor-settingsx')(),
         }} selected='index.html'>
             <TopBar>
                 <button>Save</button>

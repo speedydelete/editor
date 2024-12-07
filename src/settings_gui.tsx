@@ -1,5 +1,5 @@
 
-import React, {type ReactNode, useState, useEffect, createContext, useContext} from 'react'
+import React, {type ReactNode, useState, createContext, useContext} from 'react'
 import {json} from '@codemirror/lang-json'
 import {type Settings, type SettingsKey, type SettingsValue, type SettingsSaver, defaultSettings} from './settings'
 import {Editor, Config} from './editor'
@@ -53,7 +53,7 @@ function CheckboxInput({setting, ...props}: {setting: SettingsKey}): ReactNode {
 function CodeInput({setting, config, height, width, json, enforceJsonObject, ...props}:
     {setting: SettingsKey, config: Config, height?: string, width?: string, json?: boolean, enforceJsonObject?: boolean}): ReactNode {
     const [settingsObj, setSettingsObj, saver] = useContext(SettingsContext);
-    const initValue = json ? JSON.stringify(settingsObj[setting], null, '  ') : settingsObj[setting];
+    const initValue: string = json ? JSON.stringify(settingsObj[setting], null, '  ') : settingsObj[setting];
     const [invalid, setInvalid] = useState('');
     function handleChange(value: string): void {
         if (json) {
@@ -151,7 +151,7 @@ function SettingsMenu({settings, saver, title, children, ...props}:
     {settings: Settings, saver: SettingsSaver, title?: string, children: ReactNode}): ReactNode {
     const [settingsObj, setSettingsObj] = useState(settings);
     return (
-        <div className='settings-wrapper' {...props}>
+        <div className='settings' {...props}>
             <SettingsContext.Provider value={[settingsObj, setSettingsObj, saver]}>
                 {title && 
                     <>
