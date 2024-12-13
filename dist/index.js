@@ -63,11 +63,11 @@ root.render(
             lang: html(),
             settings: localStorageLoader('editor-settingsx')(),
         }} selected='index.html'>
-            <TopBar>
-                <button>Save</button>
-                <ShowChangesButton shownText='Hide changes' hiddenText='Show changes' />
-            </TopBar>
             <TabBar>
+                <TopBar>
+                    <button>Save</button>
+                    <ShowChangesButton shownText='Hide changes' hiddenText='Show changes' />
+                </TopBar>
                 <Tab name='index.html' />
                 <TabSpace />
                 <Tab name='settings' displayName='Settings' />

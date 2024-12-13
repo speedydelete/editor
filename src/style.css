@@ -3,8 +3,6 @@
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
 }
 
 .editor-wrapper * {
@@ -13,23 +11,6 @@
 
 .editor-wrapper button {
     padding: 3px 5px!important;
-}
-
-.editor-wrapper .top-bar {
-    width: 100%;
-    flex-shrink: 100;
-    padding: 10px;
-    border-bottom: none!important;
-}
-
-.editor-wrapper .top-bar:first-child {
-    display: inline;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 10px;
-    align-items: center;
 }
 
 .editor-wrapper .tab-view {
@@ -46,12 +27,34 @@
 }
 
 .editor-wrapper .tab-bar {
-    height: 30px;
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    min-height: 30px;
     width: 100%;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: flex-start;
     border-top: none!important;
+}
+
+.editor-wrapper .top-bar {
+    width: 100%;
+    padding: 10px;
+    border-bottom: none!important;
+}
+
+.editor-wrapper .top-bar:first-child {
+    display: inline;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
 }
 
 .editor-wrapper .tab {
@@ -89,7 +92,7 @@
 
 .editor-wrapper .settings {
     padding: 10px;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 100%;
     height: 100%;
 }
