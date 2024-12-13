@@ -60,7 +60,6 @@ function CodeInput({setting, config, height, width, json, enforceJsonObject, ...
             setInvalid('');
             try {
                 const parsed = JSON.parse(value);
-                console.log(parsed);
                 if (enforceJsonObject && (typeof parsed != 'object' || Array.isArray(parsed) || parsed === null)) {
                     throw new SyntaxError('Input is not a JSON object');
                 }

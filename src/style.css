@@ -118,7 +118,3 @@
     width: 14px;
     user-select: none;
 }
-
-.editor-wrapper input[type=checkbox]:checked {
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' preserveAspectRatio='none' viewBox='0 0 16 16'><line x1='2' y1='9' x2='6' y2='13' stroke='white' /><line x1='6' y1='13' x2='14' y2='3' stroke='white' /></svg>");
-}

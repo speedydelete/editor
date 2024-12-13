@@ -53,15 +53,13 @@ window.addEventListener('load', function() {
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
-const settings = localStorageLoader('editor-settingsx')();
-import {defaultSettings} from '../src';
-localStorageSaver('editor-settings')(defaultSettings);
+const settings = localStorageLoader('editor-settings')();
 root.render(
     <StrictMode>
         <TabbedEditor config={{
             value: testText,
             lang: html(),
-            settings: localStorageLoader('editor-settingsx')(),
+            settings: localStorageLoader('editor-settings')(),
         }} selected='index.html'>
             <TabBar>
                 <TopBar>
